@@ -476,8 +476,7 @@ function doLogin() {
     sessionStorage.setItem('mbh_auth', '1');
     document.getElementById('loginScreen').style.display = 'none';
     document.getElementById('app').style.display = 'block';
-    renderTable();
-    updateStats();
+    loadFromSheets();
   } else {
     document.getElementById('loginError').style.display = 'block';
     document.getElementById('passInput').value = '';
@@ -596,6 +595,40 @@ function updatePrice(id, val) {
   showToast('המחיר נשמר ✓');
 }
 
+
+function loadFromSheets() {
+  var url = 'https://script.google.com/macros/s/AKfycby1528__diL8TYbvjjzwO2G4WUbiCDzfrDBeVfQ2nOTLREz7e7PL_tBJf2Rc6iHDfeHpg/exec';
+  // Show loading
+  var list = document.getElementById('leadsTableBody') || document.getElementById('leadsList');
+  if (list) list.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--text-muted);padding:30px;">טוען לידים...</td></tr>';
+  
+  fetch(url)
+    .then(function(r) { return r.json(); })
+    .then(function(leads) {
+      if (!Array.isArray(leads)) { renderTable(); updateStats(); return; }
+      // Convert Sheets data to local format and save
+      var localLeads = leads.reverse().map(function(l, i) {
+        return {
+          id: Date.now() - i,
+          name: l.name || '',
+          phone: l.phone || '',
+          email: l.email || '',
+          work: l.work || '',
+          price: l.price || '',
+          date: l.date || ''
+        };
+      });
+      localStorage.setItem('mbh_leads_v2', JSON.stringify(localLeads));
+      renderTable();
+      updateStats();
+    })
+    .catch(function() {
+      // Fallback to localStorage if fetch fails
+      renderTable();
+      updateStats();
+    });
+}
+
 function exportCSV() {
   const leads = getLeads();
   if (leads.length === 0) { showToast('אין נתונים לייצוא'); return; }
@@ -647,8 +680,7 @@ window.addEventListener("load", function() {
       if (sessionStorage.getItem("mbh_auth") === "1") {
         document.getElementById("loginScreen").style.display = "none";
         document.getElementById("app").style.display = "block";
-        renderLeads();
-        updateStats();
+        loadFromSheets();
       } else {
         document.getElementById("loginScreen").style.display = "flex";
       }
