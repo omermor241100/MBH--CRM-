@@ -508,7 +508,7 @@ window.addLead = function(name, phone, email, work, price) {
     date: new Date().toLocaleDateString('he-IL', { day:'2-digit', month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit' })
   });
   saveLeads(leads);
-  fetch('https://script.google.com/macros/s/AKfycby1528__diL8TYbvjjzwO2G4WUbiCDzfrDBeVfQ2nOTLREz7e7PL_tBJf2Rc6iHDfeHpg/exec', {
+  fetch('https://script.google.com/macros/s/AKfycbzuUz9dCQWY009BPSdjj_Q4hSz6YI_T8h11hiNe2s-mvtFyQ8f4nD0zevmnb3bXnS08zQ/exec', {
     method: 'POST', mode: 'no-cors',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ name: name, phone: phone, email: email, work: work, price: price || '' })
@@ -597,7 +597,7 @@ function updatePrice(id, val) {
 
 
 function loadFromSheets() {
-  var url = 'https://script.google.com/macros/s/AKfycby1528__diL8TYbvjjzwO2G4WUbiCDzfrDBeVfQ2nOTLREz7e7PL_tBJf2Rc6iHDfeHpg/exec';
+  var url = 'https://script.google.com/macros/s/AKfycbzuUz9dCQWY009BPSdjj_Q4hSz6YI_T8h11hiNe2s-mvtFyQ8f4nD0zevmnb3bXnS08zQ/exec';
   // Show loading
   var list = document.getElementById('leadsTableBody') || document.getElementById('leadsList');
   if (list) list.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--text-muted);padding:30px;">טוען לידים...</td></tr>';
