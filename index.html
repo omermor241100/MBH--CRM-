@@ -508,15 +508,27 @@ window.addLead = function(name, phone, email, work, price) {
     date: new Date().toLocaleDateString('he-IL', { day:'2-digit', month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit' })
   });
   saveLeads(leads);
-  fetch('https://script.google.com/macros/s/AKfycbxlm9BDpua02oN6-MtbiqbVAZ5__vXpLXt21y7oC58tkicSwH7U72PzLMk0jO4LY8UWjg/exec', {
-    method: 'POST', mode: 'no-cors',
-    headers: { 'Content-Type': 'application/json' },
+  fetch('https://hepbnfdkmvrlbcsyrnmn.supabase.co/rest/v1/MBH%20-%20CRM', {
+    method: 'POST',
+    headers: {
+      'apikey': 'sb_publishable_0Oexgft2ZmnOIl_mSHyzMg_6LDUBMwk',
+      'Authorization': 'Bearer sb_publishable_0Oexgft2ZmnOIl_mSHyzMg_6LDUBMwk',
+      'Content-Type': 'application/json',
+      'Prefer': 'return=minimal'
+    },
     body: JSON.stringify({ name: name, phone: phone, email: email, work: work, price: price || '' })
   }).catch(function(){});
 };
 
 function deleteLead(id) {
   if (!confirm('למחוק ליד זה?')) return;
+  fetch('https://hepbnfdkmvrlbcsyrnmn.supabase.co/rest/v1/MBH%20-%20CRM?id=eq.' + id, {
+    method: 'DELETE',
+    headers: {
+      'apikey': 'sb_publishable_0Oexgft2ZmnOIl_mSHyzMg_6LDUBMwk',
+      'Authorization': 'Bearer sb_publishable_0Oexgft2ZmnOIl_mSHyzMg_6LDUBMwk'
+    }
+  }).catch(function(){});
   const leads = getLeads().filter(l => l.id !== id);
   saveLeads(leads);
   renderTable();
@@ -587,6 +599,15 @@ function updateStats() {
 }
 
 function updatePrice(id, val) {
+  fetch('https://hepbnfdkmvrlbcsyrnmn.supabase.co/rest/v1/MBH%20-%20CRM?id=eq.' + id, {
+    method: 'PATCH',
+    headers: {
+      'apikey': 'sb_publishable_0Oexgft2ZmnOIl_mSHyzMg_6LDUBMwk',
+      'Authorization': 'Bearer sb_publishable_0Oexgft2ZmnOIl_mSHyzMg_6LDUBMwk',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ price: val })
+  }).catch(function(){});
   const leads = getLeads();
   const lead = leads.find(l => l.id === id);
   if (!lead) return;
@@ -617,7 +638,7 @@ function loadFromSheets() {
         date: l.created_at ? new Date(l.created_at).toLocaleDateString('he-IL', {day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}) : ''
       };
     });
-    localStorage.setItem('mbh_leads_v2', JSON.stringify(leads));
+    saveLeads(leads);
     renderTable();
     updateStats();
   })
