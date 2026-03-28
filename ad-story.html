@@ -64,16 +64,15 @@
     background: linear-gradient(to top, rgba(10,9,6,0.92), transparent);
   }
 
-  /* ── FRAME — wraps logo + company name ── */
+  /* ── FRAME — tight around logo only ── */
   .logo-frame {
     position: relative;
     z-index: 10;
     border: 1px solid var(--glass-border);
-    padding: clamp(20px, 5vw, 44px) clamp(24px, 6vw, 52px);
-    display: flex;
-    flex-direction: column;
+    padding: clamp(12px, 3vw, 26px);
+    display: inline-flex;
     align-items: center;
-    gap: clamp(8px, 2vw, 16px);
+    justify-content: center;
     animation: slideUp 0.9s cubic-bezier(0.22,1,0.36,1) 0.35s both;
   }
 
@@ -90,21 +89,10 @@
   .logo-frame::after  { bottom: -1px; right: -1px; border-width: 0 2px 2px 0; }
 
   .logo-img {
-    width: clamp(90px, 22vw, 170px);
-    height: clamp(90px, 22vw, 170px);
+    width: clamp(130px, 34vw, 270px);
+    height: clamp(130px, 34vw, 270px);
     object-fit: contain;
     animation: slideUp 0.8s cubic-bezier(0.22,1,0.36,1) 0.55s both;
-  }
-
-  .company-name {
-    color: var(--brand);
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(11px, 2.6vw, 22px);
-    font-weight: 300;
-    letter-spacing: 0.18em;
-    text-align: center;
-    direction: ltr;
-    animation: slideUp 0.8s cubic-bezier(0.22,1,0.36,1) 0.7s both;
   }
 
   /* ── BELOW FRAME ── */
@@ -182,7 +170,6 @@
   <a href="https://mor-building.com" style="text-decoration:none; z-index:10; display:flex; flex-direction:column; align-items:center; gap:clamp(10px,2.5vw,20px); transform:translateY(-8%);">
     <div class="logo-frame">
       <img class="logo-img" src="logo-transparent.png" alt="MBH Logo">
-      <div class="company-name">Mor Building Holdings Ltd</div>
     </div>
     <div class="divider"></div>
     <div class="tagline">הופכים חלום למציאות</div>
