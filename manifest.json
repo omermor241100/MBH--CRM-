@@ -2,7 +2,7 @@
   "name": "MBH CRM",
   "short_name": "MBH CRM",
   "description": "מערכת ניהול לידים - Mor Building Holdings",
-  "start_url": "./",
+  "start_url": "./crm.html",
   "display": "standalone",
   "background_color": "#0f0e0b",
   "theme_color": "#0f0e0b",
