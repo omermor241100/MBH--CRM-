@@ -24,20 +24,73 @@
     justify-content: center;
   }
 
-  /* 9:16 story container */
+  /* ── 9:16 story container (Instagram / TikTok) ── */
   .ad {
     position: relative;
     width: min(100vw, 56.25vh);
     height: min(100vh, 177.78vw);
     overflow: hidden;
+    background: #0d0c09;
+  }
+
+  /* ── Instagram / TikTok story progress bar ── */
+  .story-bar {
+    position: absolute;
+    top: 14px;
+    left: 10px;
+    right: 10px;
+    z-index: 100;
+    display: flex;
+    gap: 4px;
+  }
+
+  .seg {
+    flex: 1;
+    height: 2.5px;
+    background: rgba(255,255,255,0.28);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .seg-fill {
+    height: 100%;
+    width: 0%;
+    background: #fff;
+    border-radius: 2px;
+  }
+
+  /* ── Screens ── */
+  .screen {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.75s ease;
+    pointer-events: none;
+  }
+
+  .screen.active {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  /* ── Screen 1: Video ── */
+  .screen-video video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: contrast(1.08) saturate(1.12) brightness(1.02);
+  }
+
+  /* ── Screen 2: End Card ── */
+  .screen-end {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    gap: clamp(10px, 2.5vw, 20px);
+    justify-content: flex-start;
+    padding-top: clamp(25px, 6vw, 50px);
   }
 
-  /* Background sketch */
   .bg {
     position: absolute;
     inset: 0;
@@ -45,7 +98,6 @@
     filter: grayscale(25%) brightness(0.6);
   }
 
-  /* Vignette */
   .vignette {
     position: absolute;
     inset: 0;
@@ -54,34 +106,74 @@
       rgba(26,23,16,0.50) 65%,
       rgba(10,9,6,0.85) 100%
     );
-    animation: fadeIn 1.4s ease both;
   }
 
   .grad-bottom {
     position: absolute;
     bottom: 0; left: 0; right: 0;
-    height: 28%;
-    background: linear-gradient(to top, rgba(10,9,6,0.92), transparent);
+    height: 40%;
+    background: linear-gradient(to top, rgba(10,9,6,0.97), rgba(10,9,6,0.4) 60%, transparent);
   }
 
-  /* ── FRAME — tight around logo only ── */
-  .logo-frame {
+  /* ── Logo frame ── */
+  .logo-wrap {
     position: relative;
     z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* ── CTA Button — pinned to vertical center ── */
+  .cta-btn {
+    position: absolute;
+    top: 64%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    display: block;
+    width: clamp(200px, 72%, 380px);
+    padding: clamp(10px, 2.5vw, 18px) clamp(15px, 4vw, 30px);
+    border: 1px solid var(--gold);
+    color: var(--gold-light);
+    font-family: 'Heebo', sans-serif;
+    font-size: clamp(11px, 2.4vw, 19px);
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    text-decoration: none;
+    text-align: center;
+    background: rgba(10,9,6,0.5);
+    backdrop-filter: blur(4px);
+  }
+
+  /* ── Tagline section — pinned above bottom-info ── */
+  .tagline-section {
+    position: absolute;
+    bottom: 23%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(8px, 2vw, 15px);
+    width: 100%;
+  }
+
+  .logo-frame {
     border: 1px solid var(--glass-border);
-    padding: clamp(12px, 3vw, 26px);
+    padding: clamp(14px, 3.5vw, 32px);
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    animation: slideUp 0.9s cubic-bezier(0.22,1,0.36,1) 0.35s both;
+    position: relative;
   }
 
-  /* Gold corner accents */
   .logo-frame::before, .logo-frame::after {
     content: '';
     position: absolute;
-    width: clamp(12px, 3vw, 22px);
-    height: clamp(12px, 3vw, 22px);
+    width: clamp(18px, 5vw, 40px);
+    height: clamp(18px, 5vw, 40px);
     border-color: var(--gold);
     border-style: solid;
   }
@@ -89,25 +181,18 @@
   .logo-frame::after  { bottom: -1px; right: -1px; border-width: 0 2px 2px 0; }
 
   .logo-img {
-    width: clamp(130px, 34vw, 270px);
-    height: clamp(130px, 34vw, 270px);
+    width: min(38vh, 67vw);
+    height: min(38vh, 67vw);
     object-fit: contain;
-    animation: slideUp 0.8s cubic-bezier(0.22,1,0.36,1) 0.55s both;
   }
 
-  /* ── BELOW FRAME ── */
   .divider {
-    position: relative;
-    z-index: 10;
     width: clamp(50px, 13vw, 110px);
     height: 1px;
     background: linear-gradient(to right, transparent, var(--gold), transparent);
-    animation: slideUp 0.8s cubic-bezier(0.22,1,0.36,1) 0.85s both;
   }
 
   .tagline {
-    position: relative;
-    z-index: 10;
     color: var(--gold-light);
     font-family: 'Cormorant Garamond', serif;
     font-size: clamp(13px, 3.2vw, 28px);
@@ -116,69 +201,168 @@
     letter-spacing: 0.06em;
     text-align: center;
     line-height: 1.5;
-    animation: slideUp 0.8s cubic-bezier(0.22,1,0.36,1) 1.0s both;
   }
 
-  /* ── BOTTOM ── */
-  .bottom-text {
+  /* ── Bottom contact block ── */
+  .bottom-info {
     position: absolute;
-    bottom: 9%;
+    bottom: 5%;
     width: 100%;
     text-align: center;
     z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(3px, 0.9vw, 9px);
+  }
+
+  .slogan {
     font-family: 'Heebo', sans-serif;
     font-size: clamp(10px, 2.4vw, 20px);
     font-weight: 300;
     letter-spacing: 0.2em;
     color: var(--brand);
     white-space: nowrap;
-    animation: slideUp 0.9s cubic-bezier(0.22,1,0.36,1) 1.1s both;
+    margin-bottom: clamp(4px, 1vw, 10px);
+  }
+
+  .contact-row {
+    font-family: 'Heebo', sans-serif;
+    font-size: clamp(9px, 2vw, 17px);
+    font-weight: 300;
+    letter-spacing: 0.08em;
+    color: rgba(226,222,208,0.82);
+    direction: ltr;
   }
 
   .url {
-    position: absolute;
-    bottom: 4.5%;
-    width: 100%;
-    text-align: center;
-    z-index: 10;
     font-family: 'Cormorant Garamond', serif;
     font-size: clamp(8px, 1.8vw, 16px);
     font-weight: 300;
     letter-spacing: 0.18em;
-    color: rgba(201,168,76,0.65);
+    color: rgba(201,168,76,0.7);
     direction: ltr;
-    animation: slideUp 0.9s cubic-bezier(0.22,1,0.36,1) 1.25s both;
+    margin-top: clamp(2px, 0.5vw, 6px);
+  }
+
+  /* ── Entry animations ── */
+  .screen-end .logo-wrap,
+  .screen-end .cta-btn,
+  .screen-end .tagline-section,
+  .screen-end .bottom-info { opacity: 0; }
+
+  .screen-end.active .logo-wrap {
+    animation: slideUp 1s cubic-bezier(0.22,1,0.36,1) 0.3s both;
+  }
+  .screen-end.active .cta-btn {
+    animation: slideUpCta 0.9s cubic-bezier(0.22,1,0.36,1) 0.55s both;
+  }
+  .screen-end.active .tagline-section {
+    animation: slideUpTagline 0.9s cubic-bezier(0.22,1,0.36,1) 0.75s both;
+  }
+  .screen-end.active .bottom-info {
+    animation: slideUp 0.9s cubic-bezier(0.22,1,0.36,1) 0.95s both;
   }
 
   @keyframes slideUp {
-    from { opacity: 0; transform: translateY(36px); }
+    from { opacity: 0; transform: translateY(32px); }
     to   { opacity: 1; transform: translateY(0); }
   }
-  @keyframes fadeIn {
-    from { opacity: 0; }
-    to   { opacity: 1; }
+  @keyframes slideUpCta {
+    from { opacity: 0; transform: translate(-50%, calc(-50% + 28px)); }
+    to   { opacity: 1; transform: translate(-50%, -50%); }
+  }
+  @keyframes slideUpTagline {
+    from { opacity: 0; transform: translateX(-50%) translateY(32px); }
+    to   { opacity: 1; transform: translateX(-50%) translateY(0); }
   }
 </style>
 </head>
 <body>
 <div class="ad">
 
-  <div class="bg"></div>
-  <div class="vignette"></div>
-  <div class="grad-bottom"></div>
+  <!-- Story progress bar: 2 segments -->
+  <div class="story-bar">
+    <div class="seg"><div class="seg-fill" id="fill1"></div></div>
+    <div class="seg"><div class="seg-fill" id="fill2"></div></div>
+  </div>
 
-  <a href="https://mor-building.com" style="text-decoration:none; z-index:10; display:flex; flex-direction:column; align-items:center; gap:clamp(10px,2.5vw,20px); transform:translateY(-8%);">
-    <div class="logo-frame">
-      <img class="logo-img" src="logo-transparent.png" alt="MBH Logo">
+  <!-- ── Screen 1: Video ── -->
+  <div class="screen screen-video active" id="screen-video">
+    <video id="main-video" autoplay muted playsinline>
+      <source src="ad-video.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <!-- ── Screen 2: End Card ── -->
+  <div class="screen screen-end" id="screen-end">
+
+    <div class="bg"></div>
+    <div class="vignette"></div>
+    <div class="grad-bottom"></div>
+
+    <div class="logo-wrap">
+      <div class="logo-frame">
+        <img class="logo-img" src="logo-transparent.png" alt="MBH Logo">
+      </div>
     </div>
-    <div class="divider"></div>
-    <div class="tagline">הופכים חלום למציאות</div>
-  </a>
 
-  <div class="bottom-text">בנייה &nbsp;·&nbsp; אמינות &nbsp;·&nbsp; מצוינות</div>
-  <div class="url">mor-building.com</div>
+    <a class="cta-btn" href="https://mor-building.com">לחצו והשאירו פרטים</a>
+
+    <div class="tagline-section">
+      <div class="divider"></div>
+      <div class="tagline">הופכים חלום למציאות...</div>
+    </div>
+
+    <div class="bottom-info">
+      <div class="slogan">בנייה &nbsp;·&nbsp; אמינות &nbsp;·&nbsp; מצוינות</div>
+      <div class="contact-row">morbuildingholdings@gmail.com</div>
+      <div class="contact-row">050-646-0099</div>
+      <div class="url">mor-building.com</div>
+    </div>
+
+  </div>
 
 </div>
+
+<script>
+  const video    = document.getElementById('main-video');
+  const scVideo  = document.getElementById('screen-video');
+  const scEnd    = document.getElementById('screen-end');
+  const fill1    = document.getElementById('fill1');
+  const fill2    = document.getElementById('fill2');
+
+  const END_CARD_SEC = 6; // seconds the end card is held
+
+  // ── Segment 1: video progress ──
+  video.addEventListener('timeupdate', () => {
+    if (video.duration) {
+      fill1.style.width = (video.currentTime / video.duration * 100) + '%';
+    }
+  });
+
+  // ── On video end → show end card ──
+  video.addEventListener('ended', showEndCard);
+
+  // ── Fallback if video fails to load ──
+  video.addEventListener('error', showEndCard);
+
+  function showEndCard() {
+    fill1.style.width = '100%';
+    scVideo.classList.remove('active');
+    scEnd.classList.add('active');
+
+    // Segment 2: animate over END_CARD_SEC seconds
+    let start = null;
+    function tick(ts) {
+      if (!start) start = ts;
+      const pct = Math.min((ts - start) / (END_CARD_SEC * 1000) * 100, 100);
+      fill2.style.width = pct + '%';
+      if (pct < 100) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+</script>
 
 </body>
 </html>

@@ -392,6 +392,30 @@
     font-size: 0.8rem; color: rgba(255,255,255,0.22);
     letter-spacing: 0.15em;
   }
+  .footer-contact {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+  }
+  .footer-contact .dot {
+    color: rgba(201,168,76,0.75);
+    font-size: 1rem;
+  }
+  .footer-contact a {
+    font-family: 'Heebo', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 300;
+    letter-spacing: 0.08em;
+    color: rgba(201,168,76,0.75);
+    text-decoration: none;
+    direction: ltr;
+    transition: color 0.2s;
+  }
+  .footer-contact a:hover { color: rgba(201,168,76,1); }
 
   @keyframes fadeDown {
     from { opacity:0; transform:translateY(-24px); }
@@ -560,6 +584,11 @@
     </div>
 
     <div class="footer">© 2025 Mor Building Holdings Ltd &nbsp;·&nbsp; כל הזכויות שמורות</div>
+    <div class="footer-contact">
+      <a href="tel:0506460099">050-646-0099</a>
+      <span class="dot">·</span>
+      <a href="mailto:morbuildingholdings@gmail.com">morbuildingholdings@gmail.com</a>
+    </div>
 
   </div>
 </div>
