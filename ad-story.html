@@ -334,6 +334,7 @@
 
   const END_CARD_SEC = 6;
   let endCardShown = false;
+  let videoStarted = false;
 
   function showEndCard() {
     if (endCardShown) return;
@@ -351,39 +352,48 @@
     requestAnimationFrame(tick);
   }
 
-  // ── Segment 1: video progress ──
+  // ── Video progress ──
   video.addEventListener('timeupdate', () => {
+    videoStarted = true;
     if (video.duration) {
       fill1.style.width = (video.currentTime / video.duration * 100) + '%';
     }
   });
 
   video.addEventListener('ended', showEndCard);
-  video.addEventListener('error', showEndCard);
+  video.addEventListener('error',  showEndCard);
 
-  // ── Safari: try play, retry once on rejection ──
+  // ── Universal play attempt ──
   function tryPlay() {
+    video.muted = true; // ensure muted for all browsers
     const p = video.play();
     if (p !== undefined) {
       p.catch(() => {
-        // Retry after short delay (Safari sometimes needs this)
-        setTimeout(() => {
-          video.play().catch(() => showEndCard());
-        }, 500);
+        // Autoplay blocked — wait for user tap then try again
+        document.addEventListener('click',  onUserGesture, { once: true });
+        document.addEventListener('touchstart', onUserGesture, { once: true });
       });
     }
   }
 
+  function onUserGesture() {
+    video.play().catch(() => showEndCard());
+  }
+
+  // Start as soon as possible
   if (video.readyState >= 2) {
     tryPlay();
   } else {
     video.addEventListener('canplay', tryPlay, { once: true });
+    video.load(); // force load on all browsers
   }
 
-  // ── Timeout fallback: if video hasn't started in 8s, show end card ──
-  setTimeout(() => {
-    if (video.currentTime === 0) showEndCard();
-  }, 8000);
+  // ── Stall detection: if buffering too long, show end card ──
+  video.addEventListener('stalled',  () => setTimeout(() => { if (!videoStarted) showEndCard(); }, 5000));
+  video.addEventListener('waiting',  () => setTimeout(() => { if (!videoStarted) showEndCard(); }, 8000));
+
+  // ── Hard timeout: 10s max wait ──
+  setTimeout(() => { if (!videoStarted) showEndCard(); }, 10000);
 </script>
 
 </body>
