@@ -289,7 +289,7 @@
 
   <!-- ── Screen 1: Video ── -->
   <div class="screen screen-video active" id="screen-video">
-    <video id="main-video" autoplay muted playsinline>
+    <video id="main-video" autoplay muted playsinline webkit-playsinline preload="auto">
       <source src="ad-video.mp4" type="video/mp4">
     </video>
   </div>
@@ -361,16 +361,29 @@
   video.addEventListener('ended', showEndCard);
   video.addEventListener('error', showEndCard);
 
-  // ── Try to play; if autoplay blocked show end card ──
-  const playPromise = video.play();
-  if (playPromise !== undefined) {
-    playPromise.catch(() => showEndCard());
+  // ── Safari: try play, retry once on rejection ──
+  function tryPlay() {
+    const p = video.play();
+    if (p !== undefined) {
+      p.catch(() => {
+        // Retry after short delay (Safari sometimes needs this)
+        setTimeout(() => {
+          video.play().catch(() => showEndCard());
+        }, 500);
+      });
+    }
   }
 
-  // ── Timeout fallback: if video hasn't started in 4s, show end card ──
+  if (video.readyState >= 2) {
+    tryPlay();
+  } else {
+    video.addEventListener('canplay', tryPlay, { once: true });
+  }
+
+  // ── Timeout fallback: if video hasn't started in 8s, show end card ──
   setTimeout(() => {
     if (video.currentTime === 0) showEndCard();
-  }, 4000);
+  }, 8000);
 </script>
 
 </body>
