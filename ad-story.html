@@ -332,27 +332,15 @@
   const fill1    = document.getElementById('fill1');
   const fill2    = document.getElementById('fill2');
 
-  const END_CARD_SEC = 6; // seconds the end card is held
-
-  // ── Segment 1: video progress ──
-  video.addEventListener('timeupdate', () => {
-    if (video.duration) {
-      fill1.style.width = (video.currentTime / video.duration * 100) + '%';
-    }
-  });
-
-  // ── On video end → show end card ──
-  video.addEventListener('ended', showEndCard);
-
-  // ── Fallback if video fails to load ──
-  video.addEventListener('error', showEndCard);
+  const END_CARD_SEC = 6;
+  let endCardShown = false;
 
   function showEndCard() {
+    if (endCardShown) return;
+    endCardShown = true;
     fill1.style.width = '100%';
     scVideo.classList.remove('active');
     scEnd.classList.add('active');
-
-    // Segment 2: animate over END_CARD_SEC seconds
     let start = null;
     function tick(ts) {
       if (!start) start = ts;
@@ -362,6 +350,27 @@
     }
     requestAnimationFrame(tick);
   }
+
+  // ── Segment 1: video progress ──
+  video.addEventListener('timeupdate', () => {
+    if (video.duration) {
+      fill1.style.width = (video.currentTime / video.duration * 100) + '%';
+    }
+  });
+
+  video.addEventListener('ended', showEndCard);
+  video.addEventListener('error', showEndCard);
+
+  // ── Try to play; if autoplay blocked show end card ──
+  const playPromise = video.play();
+  if (playPromise !== undefined) {
+    playPromise.catch(() => showEndCard());
+  }
+
+  // ── Timeout fallback: if video hasn't started in 4s, show end card ──
+  setTimeout(() => {
+    if (video.currentTime === 0) showEndCard();
+  }, 4000);
 </script>
 
 </body>
