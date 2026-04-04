@@ -651,10 +651,9 @@ function handleSubmit() {
     document.getElementById('successMsg').style.display  = 'block';
   });
 
-  fetch('https://ntfy.sh/mbh-crm-leads-7x4k9', {
+  fetch('https://ntfy.sh/mbh-crm-leads-7x4k9?priority=high', {
     method: 'POST',
-    headers: { 'Title': 'ליד חדש!', 'Priority': 'high', 'Tags': 'construction,bust_in_silhouette' },
-    body: name + ' | ' + phone + ' | ' + email + ' | ' + work
+    body: 'Lead: ' + name + ' | ' + phone + ' | ' + email + ' | ' + work
   }).catch(function(){});
 }
 </script>
