@@ -374,7 +374,8 @@
   function showEndCard() {
     if (endCardShown) return;
     endCardShown = true;
-    if (soundOn) { music.currentTime = 0; music.play().catch(() => {}); }
+    music.pause();
+    soundBtn.style.display = 'none';
     fill1.style.width = '100%';
     scVideo.classList.remove('active');
     scEnd.classList.add('active');
@@ -395,6 +396,11 @@
       fill1.style.width = (video.currentTime / video.duration * 100) + '%';
     }
   });
+
+  video.addEventListener('play', () => {
+    if (soundOn) music.play().catch(() => {});
+  });
+  video.addEventListener('pause', () => { music.pause(); });
 
   video.addEventListener('ended', showEndCard);
   video.addEventListener('error',  showEndCard);
