@@ -110,7 +110,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    padding: clamp(25px, 6vw, 50px) 0 clamp(80px, 18vh, 130px);
+    padding: clamp(25px, 6vw, 50px) 0 clamp(20px, 4vh, 40px);
     gap: clamp(14px, 3.5vw, 28px);
   }
 
@@ -222,8 +222,8 @@
 
   /* ── Bottom contact block ── */
   .bottom-info {
-    position: absolute;
-    bottom: 5%;
+    position: relative;
+    margin-top: auto;
     width: 100%;
     text-align: center;
     z-index: 10;
@@ -278,7 +278,7 @@
     animation: slideUpTagline 0.9s cubic-bezier(0.22,1,0.36,1) 0.75s both;
   }
   .screen-end.active .bottom-info {
-    animation: slideUp 0.9s cubic-bezier(0.22,1,0.36,1) 0.95s both;
+    animation: slideUpTagline 0.9s cubic-bezier(0.22,1,0.36,1) 0.95s both;
   }
 
   @keyframes slideUp {
