@@ -110,7 +110,8 @@
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    padding-top: clamp(25px, 6vw, 50px);
+    padding: clamp(25px, 6vw, 50px) 0 clamp(80px, 18vh, 130px);
+    gap: clamp(14px, 3.5vw, 28px);
   }
 
   .bg {
@@ -146,12 +147,9 @@
     justify-content: center;
   }
 
-  /* ── CTA Button — pinned to vertical center ── */
+  /* ── CTA Button ── */
   .cta-btn {
-    position: absolute;
-    top: 64%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    position: relative;
     z-index: 10;
     display: block;
     width: clamp(200px, 72%, 380px);
@@ -168,12 +166,9 @@
     backdrop-filter: blur(4px);
   }
 
-  /* ── Tagline section — pinned above bottom-info ── */
+  /* ── Tagline section ── */
   .tagline-section {
-    position: absolute;
-    bottom: 23%;
-    left: 50%;
-    transform: translateX(-50%);
+    position: relative;
     z-index: 10;
     display: flex;
     flex-direction: column;
@@ -291,12 +286,12 @@
     to   { opacity: 1; transform: translateY(0); }
   }
   @keyframes slideUpCta {
-    from { opacity: 0; transform: translate(-50%, calc(-50% + 28px)); }
-    to   { opacity: 1; transform: translate(-50%, -50%); }
+    from { opacity: 0; transform: translateY(28px); }
+    to   { opacity: 1; transform: translateY(0); }
   }
   @keyframes slideUpTagline {
-    from { opacity: 0; transform: translateX(-50%) translateY(32px); }
-    to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+    from { opacity: 0; transform: translateY(32px); }
+    to   { opacity: 1; transform: translateY(0); }
   }
 </style>
 </head>
