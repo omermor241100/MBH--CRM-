@@ -33,6 +33,26 @@
     background: #0d0c09;
   }
 
+  /* ── Sound toggle button ── */
+  .sound-btn {
+    position: absolute;
+    bottom: 18px;
+    right: 14px;
+    z-index: 200;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(0,0,0,0.5);
+    border: 1px solid rgba(255,255,255,0.3);
+    color: #fff;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    backdrop-filter: blur(4px);
+  }
+
   /* ── Instagram / TikTok story progress bar ── */
   .story-bar {
     position: absolute;
@@ -281,6 +301,9 @@
 <body>
 <div class="ad">
 
+  <audio id="bg-music" src="vivaldi-bg.aac" preload="auto"></audio>
+  <button class="sound-btn" id="sound-btn" onclick="toggleSound()">🔇</button>
+
   <!-- Story progress bar: 2 segments -->
   <div class="story-bar">
     <div class="seg"><div class="seg-fill" id="fill1"></div></div>
@@ -326,6 +349,21 @@
 </div>
 
 <script>
+  const music    = document.getElementById('bg-music');
+  const soundBtn = document.getElementById('sound-btn');
+  let soundOn = false;
+
+  function toggleSound() {
+    soundOn = !soundOn;
+    if (soundOn) {
+      music.play().catch(() => {});
+      soundBtn.textContent = '🔊';
+    } else {
+      music.pause();
+      soundBtn.textContent = '🔇';
+    }
+  }
+
   const video    = document.getElementById('main-video');
   const scVideo  = document.getElementById('screen-video');
   const scEnd    = document.getElementById('screen-end');
@@ -339,6 +377,7 @@
   function showEndCard() {
     if (endCardShown) return;
     endCardShown = true;
+    if (soundOn) { music.currentTime = 0; music.play().catch(() => {}); }
     fill1.style.width = '100%';
     scVideo.classList.remove('active');
     scEnd.classList.add('active');
