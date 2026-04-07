@@ -33,28 +33,6 @@
     background: #0d0c09;
   }
 
-  /* ── Sound toggle button ── */
-  .sound-btn {
-    position: absolute;
-    top: 8px;
-    right: 14px;
-    z-index: 200;
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    background: rgba(0,0,0,0.55);
-    border: 1px solid rgba(255,255,255,0.3);
-    color: #fff;
-    font-size: 15px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    backdrop-filter: blur(4px);
-    padding: 0;
-    line-height: 1;
-  }
-
   /* ── Instagram / TikTok story progress bar ── */
   .story-bar {
     position: absolute;
@@ -298,9 +276,6 @@
 <body>
 <div class="ad">
 
-  <audio id="bg-music" src="vivaldi-bg.aac" preload="auto"></audio>
-  <button class="sound-btn" id="sound-btn" onclick="toggleSound()">🔇</button>
-
   <!-- Story progress bar: 2 segments -->
   <div class="story-bar">
     <div class="seg"><div class="seg-fill" id="fill1"></div></div>
@@ -346,22 +321,7 @@
 </div>
 
 <script>
-  const music    = document.getElementById('bg-music');
-  const soundBtn = document.getElementById('sound-btn');
-  let soundOn = false;
-
-  function toggleSound() {
-    soundOn = !soundOn;
-    if (soundOn) {
-      music.play().catch(() => {});
-      soundBtn.textContent = '🔊';
-    } else {
-      music.pause();
-      soundBtn.textContent = '🔇';
-    }
-  }
-
-  const video    = document.getElementById('main-video');
+const video    = document.getElementById('main-video');
   const scVideo  = document.getElementById('screen-video');
   const scEnd    = document.getElementById('screen-end');
   const fill1    = document.getElementById('fill1');
@@ -374,8 +334,6 @@
   function showEndCard() {
     if (endCardShown) return;
     endCardShown = true;
-    music.pause();
-    soundBtn.style.display = 'none';
     fill1.style.width = '100%';
     scVideo.classList.remove('active');
     scEnd.classList.add('active');
@@ -397,10 +355,6 @@
     }
   });
 
-  video.addEventListener('play', () => {
-    if (soundOn) music.play().catch(() => {});
-  });
-  video.addEventListener('pause', () => { music.pause(); });
 
   video.addEventListener('ended', showEndCard);
   video.addEventListener('error',  showEndCard);
