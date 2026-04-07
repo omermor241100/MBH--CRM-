@@ -23,9 +23,17 @@
     font-family: 'Heebo', sans-serif;
     font-weight: 300;
     min-height: 100vh;
-    background: var(--dark);
+    background: var(--dark) url('bg-sketch.jpg') center center / cover no-repeat fixed;
     color: var(--white);
     overflow-x: hidden;
+  }
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: rgba(10,9,6,0.78);
+    z-index: 0;
+    pointer-events: none;
   }
 
   .page-wrapper {
