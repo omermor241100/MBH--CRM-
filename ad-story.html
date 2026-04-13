@@ -301,6 +301,11 @@
     <div class="seg"><div class="seg-fill" id="fill2"></div></div>
   </div>
 
+  <!-- ── End card music ── -->
+  <audio id="end-music" preload="auto">
+    <source src="ad-music.m4a" type="audio/mp4">
+  </audio>
+
   <!-- ── Sound button ── -->
   <button class="sound-btn" id="sound-btn" aria-label="הפעל שמע">
     <!-- muted icon -->
@@ -358,12 +363,19 @@ const video    = document.getElementById('main-video');
   let endCardShown = false;
   let videoStarted = false;
 
+  const endMusic = document.getElementById('end-music');
+
   function showEndCard() {
     if (endCardShown) return;
     endCardShown = true;
     fill1.style.width = '100%';
     scVideo.classList.remove('active');
     scEnd.classList.add('active');
+    // Continue music if video was unmuted
+    if (!video.muted) {
+      endMusic.currentTime = 11;
+      endMusic.play().catch(() => {});
+    }
     let start = null;
     function tick(ts) {
       if (!start) start = ts;
