@@ -366,15 +366,25 @@ const video    = document.getElementById('main-video');
 
   // ── Universal play attempt ──
   const music = document.getElementById('bg-music');
+  let musicStarted = false;
+
+  function startMusic() {
+    if (musicStarted) return;
+    musicStarted = true;
+    music.play().catch(() => {});
+  }
+
+  // Start music on any user interaction
+  document.addEventListener('click',      startMusic, { once: true });
+  document.addEventListener('touchstart', startMusic, { once: true });
 
   function tryPlay() {
-    video.muted = true; // ensure muted for all browsers
+    video.muted = true;
     const p = video.play();
     if (p !== undefined) {
-      p.then(() => { music.play().catch(() => {}); })
+      p.then(() => { startMusic(); })
        .catch(() => {
-        // Autoplay blocked — wait for user tap then try again
-        document.addEventListener('click',  onUserGesture, { once: true });
+        document.addEventListener('click',      onUserGesture, { once: true });
         document.addEventListener('touchstart', onUserGesture, { once: true });
       });
     }
@@ -382,7 +392,7 @@ const video    = document.getElementById('main-video');
 
   function onUserGesture() {
     video.play().catch(() => showEndCard());
-    music.play().catch(() => {});
+    startMusic();
   }
 
   // Start as soon as possible
