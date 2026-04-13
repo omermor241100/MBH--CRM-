@@ -282,11 +282,6 @@
     <div class="seg"><div class="seg-fill" id="fill2"></div></div>
   </div>
 
-  <!-- ── Background music ── -->
-  <audio id="bg-music" preload="auto">
-    <source src="ad-music.m4a" type="audio/mp4">
-  </audio>
-
   <!-- ── Screen 1: Video ── -->
   <div class="screen screen-video active" id="screen-video">
     <video id="main-video" autoplay muted playsinline webkit-playsinline preload="auto">
@@ -365,25 +360,18 @@ const video    = document.getElementById('main-video');
   video.addEventListener('error',  showEndCard);
 
   // ── Universal play attempt ──
-  const music = document.getElementById('bg-music');
-  let musicStarted = false;
-
-  function startMusic() {
-    if (musicStarted) return;
-    musicStarted = true;
-    music.play().catch(() => {});
+  // Unmute video on first user tap (audio is embedded in the video)
+  function unmuteOnTap() {
+    video.muted = false;
   }
-
-  // Start music on any user interaction
-  document.addEventListener('click',      startMusic, { once: true });
-  document.addEventListener('touchstart', startMusic, { once: true });
+  document.addEventListener('click',      unmuteOnTap, { once: true });
+  document.addEventListener('touchstart', unmuteOnTap, { once: true });
 
   function tryPlay() {
     video.muted = true;
     const p = video.play();
     if (p !== undefined) {
-      p.then(() => { startMusic(); })
-       .catch(() => {
+      p.catch(() => {
         document.addEventListener('click',      onUserGesture, { once: true });
         document.addEventListener('touchstart', onUserGesture, { once: true });
       });
@@ -391,8 +379,8 @@ const video    = document.getElementById('main-video');
   }
 
   function onUserGesture() {
+    video.muted = false;
     video.play().catch(() => showEndCard());
-    startMusic();
   }
 
   // Start as soon as possible
