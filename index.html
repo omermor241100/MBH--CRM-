@@ -394,6 +394,77 @@
     letter-spacing: 0.06em;
   }
 
+  /* ── Reviews Carousel ── */
+  .reviews-section {
+    width: 100%; margin: 60px auto 0; padding: 0 24px;
+  }
+  .reviews-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    font-style: italic;
+    font-weight: 600;
+    text-align: center;
+    color: rgba(240,230,215,0.92);
+    margin-bottom: 32px;
+    line-height: 1.4;
+  }
+  .reviews-carousel-wrap {
+    position: relative; width: 100%;
+  }
+  .reviews-track-outer {
+    overflow: hidden; width: 100%;
+  }
+  .reviews-track {
+    display: flex; gap: 16px;
+    transition: transform 0.4s ease;
+  }
+  .review-card {
+    flex: 0 0 calc(25% - 12px);
+    background: rgba(10,9,5,0.58);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-radius: 10px;
+    padding: 22px 20px;
+    box-sizing: border-box;
+  }
+  .review-card-name {
+    font-family: 'Heebo', sans-serif;
+    font-size: 0.95rem; font-weight: 500;
+    color: var(--brand); margin-bottom: 6px;
+  }
+  .review-card-stars {
+    color: var(--gold); font-size: 1rem;
+    letter-spacing: 2px; margin-bottom: 10px;
+  }
+  .review-card-text {
+    font-family: 'Heebo', sans-serif;
+    font-size: 0.85rem; font-weight: 300;
+    color: rgba(226,222,208,0.75);
+    line-height: 1.65;
+  }
+  .carousel-btn {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    background: rgba(10,9,5,0.7);
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    font-size: 1.1rem;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s;
+    z-index: 2;
+  }
+  .carousel-btn:hover { background: var(--gold); color: var(--dark); }
+  .carousel-btn.prev { right: -18px; }
+  .carousel-btn.next { left: -18px; }
+  @media (max-width: 700px) {
+    .review-card { flex: 0 0 calc(100% - 0px); }
+    .carousel-btn.prev { right: 4px; }
+    .carousel-btn.next { left: 4px; }
+  }
+
   .footer {
     margin-top: 52px; text-align: center;
     font-family: 'Cormorant Garamond', serif;
@@ -514,6 +585,7 @@
     text-align: center;
   }
 </style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
 
@@ -547,7 +619,7 @@
         <div class="stat-label">שנות ניסיון</div>
       </div>
       <div class="stat">
-        <div class="stat-num">150+</div>
+        <div class="stat-num">300+</div>
         <div class="stat-label">פרויקטים</div>
       </div>
     </div>
@@ -638,17 +710,91 @@
       </div>
     </div>
 
+    <!-- REVIEWS -->
+    <div class="reviews-section">
+      <h2 class="reviews-title">מה אתם חושבים עלינו?</h2>
+      <div class="reviews-carousel-wrap">
+        <button class="carousel-btn prev" onclick="carouselMove(-1)">&#8250;</button>
+        <div class="reviews-track-outer">
+          <div class="reviews-track" id="reviewsTrack"></div>
+        </div>
+        <button class="carousel-btn next" onclick="carouselMove(1)">&#8249;</button>
+      </div>
+    </div>
+
     <div class="footer">© 2025 Mor Building Holdings Ltd &nbsp;·&nbsp; כל הזכויות שמורות</div>
     <div class="footer-contact">
-      <a href="tel:0506460099">050-646-0099</a>
+      <a href="https://wa.me/972506460099" target="_blank"><i class="fab fa-whatsapp"></i> 050-646-0099</a>
       <span class="dot">·</span>
-      <a href="mailto:morbuildingholdings@gmail.com">morbuildingholdings@gmail.com</a>
+      <a href="tel:0505386460"><i class="fas fa-phone"></i> 050-538-6460</a>
+      <span class="dot">·</span>
+      <a href="mailto:morbuildingholdings@gmail.com"><i class="fas fa-envelope"></i> morbuildingholdings@gmail.com</a>
+      <span class="dot">·</span>
+      <a href="https://www.instagram.com/mor_building_holdings" target="_blank"><i class="fab fa-instagram"></i> mor_building_holdings</a>
     </div>
 
   </div>
 </div>
 
 <script>
+// ── Reviews Carousel ─────────────────────────────────────
+const REVIEWS = [
+  { name: "יונתן ברגמן", stars: 5, text: "אחלה עבודה, הגיעו בזמן ולא השאירו בלגן. שיפצנו סלון ומטבח ביחד ויצא ממש יפה. מומלץ." },
+  { name: "רונית אזולאי", stars: 4, text: "עשו לנו גבס בכל הדירה. לקח יום יותר ממה שתכננו אבל בסוף יצא מעולה ולא התווכחו. בסך הכל מרוצה." },
+  { name: "עמית וייס", stars: 5, text: "הגיעו, עשו את העבודה, הלכו. בלי שטויות, בלי תוספות מחיר בדרך. בדיוק מה שצריך." },
+  { name: "תמר זילברמן", stars: 4, text: "חדר האמבטיה יצא יפה מאוד. היה קצת בלגן בסוף שהיה צריך לנקות אבל כשביקשתי הם באו ומסדרו. שווה." },
+  { name: "יוסי שמיר", stars: 5, text: "היה לי נזק רטיבות שכבר שנה לא ידעתי מה לעשות איתו. הם אבחנו תוך שעה ותיקנו. לא הגזימו במחיר. ישרים." },
+  { name: "מיכל גולדברג", stars: 5, text: "נכנסנו לדירה חדשה ועשינו שיפוץ מלא לפני. הם עשו הכל – גבס, צבע, אינסטלציה. כאילו קיבלנו דירה חדשה." },
+  { name: "אייל פרידמן", stars: 4, text: "עבדתי עם לא מעט קבלנים. אלה בסדר גמור, מדברים ישר ולא מנפחים. לוח הזמנים הוחלק קצת אבל עמדו בו בסוף." },
+  { name: "שרה מזרחי", stars: 5, text: "עשו לנו הרחבה בבית. ידעתי שזה לא פשוט אבל הם ניהלו את זה בראש שקט. לא הייתי צריכה לרדוף אחריהם." },
+  { name: "רן אייזנברג", stars: 5, text: "חשמל ואינסטלציה מלאים. עבדו מהר, עשו עבודה נקייה, ולא צריך לדאוג שיחזרו לתקן. כמו שצריך." },
+  { name: "שירה גרינברג", stars: 4, text: "בגדול מרוצה. יש דברים קטנים שהיה אפשר לשפר בתיאום אבל בסוף היום העבודה עצמה יצאה טוב ומחיר הוגן." },
+  { name: "דני כהן", stars: 5, text: "שיפצו לי את המשרד תוך כמה ימים. עבדו גם בערב כדי לא לפגוע בעסק. לא הרבה כאלה." },
+  { name: "הדס שניידר", stars: 5, text: "אחרי 20 שנה החלטנו לשפץ את הבית. פחדנו מהמחיר אבל הם היו הוגנים ועמדו במה שסיכמנו. הסלון נראה אחרת לגמרי." },
+  { name: "נדב הורוביץ", stars: 5, text: "ריצפה חדשה בכל הבית יחד עם צבע. עשו את זה תוך שבוע וחצי. אשתי לא האמינה שאפשר כל כך מהר." },
+  { name: "אורית וולף", stars: 4, text: "גבס ורקע בסלון. יצא יפה. היה עיכוב של יומיים שלא הודיעו לי עליו מראש, זה קצת הפריע. אבל הסוף טוב." },
+  { name: "נמרוד שפירא", stars: 5, text: "הגג שלי נזל כבר שנתיים. כולם אמרו שזה בעיה מסובכת. אלה פתרו את זה בשניים שלושה ימים. לא נזל מאז." },
+  { name: "אביגיל פרץ", stars: 5, text: "תוספת בנייה בקומת הגן. פרויקט גדול. הם ידעו לנהל את זה, לא הלחיצו אותנו, ויצא מדהים." },
+  { name: "ליאת לוינסון", stars: 4, text: "הוספנו חדר. לא פשוט לוגיסטית אבל הם טיפלו בהכל כולל הרישוי. קצת לאט אבל מסודר." },
+  { name: "יואב שטרן", stars: 5, text: "שיפוץ שירותים ואמבטיה. יצא כמו מלון, לא מגזים. אשתי מאוד מרוצה וזה מספיק לי 😄" },
+  { name: "מרים לוי", stars: 5, text: "הייתה לנו הצפה קטנה. הם הגיעו ביום שהתקשרתי, עבדו עד שסיימו. לא זנחו אותנו באמצע. אנשים עם לב." },
+  { name: "אסף קפלן", stars: 4, text: "בניתי מחסן בחצר. העבודה יצאה טובה. המחיר היה טיפה מעל מה שחשבתי אבל לא בטירוף, ובסוף שווה." },
+];
+
+const VISIBLE = 4;
+let carouselIdx = 0;
+
+function buildCarousel() {
+  const track = document.getElementById('reviewsTrack');
+  track.innerHTML = '';
+  REVIEWS.forEach(r => {
+    const card = document.createElement('div');
+    card.className = 'review-card';
+    card.innerHTML = `
+      <div class="review-card-name">${r.name}</div>
+      <div class="review-card-stars">${'★'.repeat(r.stars)}${'☆'.repeat(5-r.stars)}</div>
+      <div class="review-card-text">${r.text}</div>`;
+    track.appendChild(card);
+  });
+  updateCarousel();
+}
+
+function updateCarousel() {
+  const track = document.getElementById('reviewsTrack');
+  const cardW = track.children[0] ? track.children[0].offsetWidth + 16 : 0;
+  track.style.transform = `translateX(${carouselIdx * cardW}px)`;
+}
+
+function carouselMove(dir) {
+  const max = REVIEWS.length - VISIBLE;
+  carouselIdx = Math.max(0, Math.min(carouselIdx - dir, max));
+  updateCarousel();
+}
+
+window.addEventListener('resize', updateCarousel);
+buildCarousel();
+// ─────────────────────────────────────────────────────────
+
 function handleSubmit() {
   const name  = document.getElementById('name').value.trim();
   const phone = document.getElementById('phone').value.trim();
