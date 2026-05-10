@@ -1,0 +1,37 @@
+name: Agent 2 — Campaign Strategy Research
+
+on:
+  workflow_dispatch:        # הפעלה ידנית מ-GitHub
+  schedule:
+    - cron: '0 7 1 * *'    # פעם בחודש, ב-1 לחודש בשעה 7 בבוקר
+
+jobs:
+  research:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install anthropic
+
+      - name: Run Agent 2 — Campaign Strategy Research
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python scripts/research_campaigns.py
+
+      - name: Commit research results
+        run: |
+          git config user.name "Agent 2 — Campaign Strategy"
+          git config user.email "agent@mor-building.com"
+          git add research/campaigns.md
+          git diff --staged --quiet || git commit -m "Agent 2: Updated campaign strategy research $(date '+%Y-%m-%d')"
+          git push
