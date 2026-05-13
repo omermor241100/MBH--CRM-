@@ -689,7 +689,7 @@ fbq('track','PageView');
       <div id="contactForm">
         <div class="form-row">
           <div class="form-group">
-            <label for="name">שם הלקוח</label>
+            <label for="name">שם מלא</label>
             <input type="text" id="name" placeholder="ישראל ישראלי">
           </div>
           <div class="form-group">
@@ -699,17 +699,11 @@ fbq('track','PageView');
         </div>
         <div class="form-row">
           <div class="form-group full">
-            <label for="email">אימייל</label>
-            <input type="email" id="email" placeholder="israel@example.com">
+            <label for="work">מה תרצו לשפץ?</label>
+            <textarea id="work" placeholder="לדוגמה: מטבח, חדרי שינה, כל הדירה..."></textarea>
           </div>
         </div>
-        <div class="form-row">
-          <div class="form-group full">
-            <label for="work">תיאור העבודה</label>
-            <textarea id="work" placeholder="ספרו לנו על הפרויקט שלכם..."></textarea>
-          </div>
-        </div>
-        <button class="submit-btn" onclick="handleSubmit()"><span>שליחה</span></button>
+        <button class="submit-btn" onclick="handleSubmit()"><span>שלח — נחזור אליך תוך שעה</span></button>
       </div>
 
       <div class="success-msg" id="successMsg">
@@ -805,10 +799,9 @@ buildCarousel();
 function handleSubmit() {
   const name  = document.getElementById('name').value.trim();
   const phone = document.getElementById('phone').value.trim();
-  const email = document.getElementById('email').value.trim();
   const work  = document.getElementById('work').value.trim();
-  if (!name || !phone || !email || !work) {
-    alert('אנא מלאו את כל השדות');
+  if (!name || !phone || !work) {
+    alert('אנא מלאו שם, טלפון ותיאור עבודה');
     return;
   }
   if (typeof fbq !== 'undefined') fbq('track', 'Lead');
@@ -823,9 +816,9 @@ function handleSubmit() {
       'Authorization': 'Bearer sb_publishable_0Oexgft2ZmnOIl_mSHyzMg_6LDUBMwk',
       'Prefer': 'return=minimal'
     },
-    body: JSON.stringify({ name: name, phone: phone, email: email, work: work })
+    body: JSON.stringify({ name: name, phone: phone, email: '', work: work })
   })
-  .then(function(r) {
+  .then(function() {
     document.getElementById('contactForm').style.display = 'none';
     document.getElementById('successMsg').style.display  = 'block';
   })
@@ -836,7 +829,7 @@ function handleSubmit() {
 
   fetch('https://ntfy.sh/mbh-crm-leads-7x4k9?priority=high', {
     method: 'POST',
-    body: 'Lead: ' + name + ' | ' + phone + ' | ' + email + ' | ' + work
+    body: '🔥 ליד חדש!\nשם: ' + name + '\nטלפון: ' + phone + '\nעבודה: ' + work
   }).catch(function(){});
 }
 </script>
