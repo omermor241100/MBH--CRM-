@@ -518,7 +518,8 @@ fbq('track','PageView');
   /* Hero CTA button */
   .hero-cta {
     display: inline-block;
-    margin-top: 28px;
+    margin-top: 0;
+    margin-bottom: 20px;
     padding: 14px 36px;
     background: #C9A84C;
     color: #111;
@@ -684,6 +685,10 @@ fbq('track','PageView');
 
     <p class="tagline">בנייה &nbsp;·&nbsp; אמינות &nbsp;·&nbsp; מצוינות</p>
 
+    <a href="#contactForm" class="hero-cta" onclick="if(typeof fbq!='undefined') fbq('track','ViewContent')">
+      קבל הצעת מחיר חינם &darr;
+    </a>
+
     <div class="stats">
       <div class="stat">
         <div class="stat-num">25</div>
@@ -695,11 +700,7 @@ fbq('track','PageView');
       </div>
     </div>
 
-    <a href="#contactForm" class="hero-cta" onclick="if(typeof fbq!='undefined') fbq('track','ViewContent')">
-      קבל הצעת מחיר חינם &darr;
-    </a>
 
-    
         <!-- TEAM -->
     <div class="team-row">
     <div class="owner-section">
