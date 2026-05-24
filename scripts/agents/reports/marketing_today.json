@@ -1,12 +1,12 @@
 {
   "date": "24/05/2026",
-  "generated_at": "2026-05-24T14:49:06.220948",
-  "spend": 3.0,
-  "impressions": 82,
+  "generated_at": "2026-05-24T15:20:01.324526",
+  "spend": 3.02,
+  "impressions": 83,
   "clicks": 4,
   "reach": 1,
-  "ctr": 4.878049,
-  "cpm": 36.585366,
+  "ctr": 4.819277,
+  "cpm": 36.385542,
   "leads": 1,
   "lp_views": 0,
   "budget": 35,
@@ -27,10 +27,10 @@
       "campaign": "שיפוצים"
     },
     "לידים": {
-      "spend": 3.0,
-      "impressions": 71,
+      "spend": 3.02,
+      "impressions": 72,
       "clicks": 4,
-      "ctr": 5.633803,
+      "ctr": 5.555556,
       "campaign": "לידים",
       "leads": 1
     }
