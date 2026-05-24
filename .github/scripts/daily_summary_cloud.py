@@ -42,6 +42,7 @@ def main():
     mkt      = load("marketing_latest.json")
     research = load("research_latest.json")
     shared   = load("shared_findings.json")
+    poster   = load("poster_daily.json")
 
     spend       = today.get("spend", 0)
     budget      = today.get("budget", 35)
@@ -64,6 +65,17 @@ def main():
     for name, d in ads.items():
         ad_leads = f" | {d['leads']} לידים" if d.get("leads") is not None else ""
         ads_lines.append(f"  • {name}: {float(d.get('spend',0)):.0f}₪ | {int(d.get('impressions',0)):,} חשיפות{ad_leads}")
+
+    # Poster stats
+    poster_ok     = poster.get("posts_ok", 0)
+    poster_failed = poster.get("posts_failed", 0)
+    poster_max    = poster.get("max_per_day", 15)
+    poster_groups = poster.get("groups_ok", [])
+    poster_line   = f"{poster_ok}/{poster_max} פוסטים הצליחו"
+    if poster_failed:
+        poster_line += f" | {poster_failed} נכשלו"
+    if poster_groups:
+        poster_line += f"\n  קבוצות: {', '.join(poster_groups[:5])}" + ("..." if len(poster_groups) > 5 else "")
 
     # Build problems/actions
     prob_lines = ["  • " + p for p in problems] if problems else ["  • לא זוהו בעיות"]
@@ -90,6 +102,9 @@ def main():
 
 🧠 ניתוח סוכן השיווק:
 {analysis_short or 'אין'}
+
+📣 פרסום קבוצות:
+  {poster_line if poster else '  אין נתונים עדיין'}
 
 🔬 מחקר ({research_t}):
 {research_short or 'אין'}"""

@@ -359,6 +359,8 @@ def git_push_reports():
         "scripts/agents/reports/marketing_latest.json",
         "scripts/agents/reports/marketing_today.json",
         "scripts/agents/reports/shared_findings.json",
+        "scripts/agents/reports/research_latest.json",
+        "scripts/agents/reports/poster_daily.json",
         "scripts/agents/campaign_knowledge.json",
     ]
     try:
