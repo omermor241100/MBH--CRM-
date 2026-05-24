@@ -1,12 +1,12 @@
 {
   "date": "24/05/2026",
-  "generated_at": "2026-05-24T15:20:01.324526",
+  "generated_at": "2026-05-24T15:50:01.867914",
   "spend": 3.02,
-  "impressions": 83,
+  "impressions": 84,
   "clicks": 4,
   "reach": 1,
-  "ctr": 4.819277,
-  "cpm": 36.385542,
+  "ctr": 4.761905,
+  "cpm": 35.952381,
   "leads": 1,
   "lp_views": 0,
   "budget": 35,
@@ -21,7 +21,7 @@
   "ads": {
     "לפני ואחרי": {
       "spend": 0.0,
-      "impressions": 11,
+      "impressions": 12,
       "clicks": 0,
       "ctr": 0.0,
       "campaign": "שיפוצים"
