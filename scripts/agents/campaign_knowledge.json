@@ -1,0 +1,87 @@
+{
+  "campaign": {
+    "id": "120247442878130704",
+    "adset_id": "120247442939030704",
+    "ads": {
+      "120247447992180704": "לפני ואחרי",
+      "120247447994660704": "שיפוצים כלליים"
+    },
+    "lifetime_budget_ils": 620,
+    "daily_equivalent_ils": 20,
+    "end_date": "2026-06-17",
+    "schedule": {
+      "all_days": "16:00-22:00"
+    },
+    "target_age": "25-65",
+    "target_location": "עמק יזרעאל 20 ק\"מ",
+    "platforms": [
+      "facebook",
+      "instagram"
+    ],
+    "landing_url": "https://mor-building.com/landing.html",
+    "old_campaign_id": "120246959463450704",
+    "old_campaign_status": "PAUSED"
+  },
+  "leads_campaign": {
+    "id": "120247600532040704",
+    "adset_id": "120247600532020704",
+    "ad_id": "120247600532010704",
+    "daily_budget_ils": 15,
+    "schedule": {
+      "all_days": "24/7"
+    }
+  },
+  "benchmarks": {
+    "ctr_bad": 1.0,
+    "ctr_ok": 2.0,
+    "ctr_good": 4.0,
+    "cpm_good": 25,
+    "cpm_ok": 50,
+    "cpm_bad": 80,
+    "cost_per_lead_target": 120,
+    "min_impressions_before_pause": 100
+  },
+  "findings": {
+    "2026-05-13": {
+      "main_problem": "דף נחיתה לא ממיר — 22 קליקים, רק 3 כניסות לדף, 0 לידים. drop-off של 86% אחרי הקליק.",
+      "ctr_status": "מצוין — 6.27%, פי 3 מהממוצע בתחום",
+      "cpm_status": "גבוה — 96 ₪ (יעד: מתחת ל-25 ₪). שלב לימוד עדיין.",
+      "budget_status": "חריגה קלה — 33.91 ₪ מתוך 30 ₪ (נורמלי ב-10%)",
+      "ad_performance": {
+        "לפני ואחרי": "CTR 5.88% — עובדת טוב",
+        "שיפוצים כלליים": "CTR 7.59% היום — שיפור מאמש"
+      },
+      "action_needed": "לבדוק מהירות טעינת דף נחיתה ופשטות הטופס"
+    },
+    "2026-05-22": {
+      "spend": 39.09,
+      "impressions": 891,
+      "clicks": 20,
+      "ctr": 2.244669,
+      "leads": 0,
+      "generated_at": "2026-05-22T23:58:05.973766"
+    },
+    "2026-05-23": {
+      "spend": 33.85,
+      "impressions": 637,
+      "clicks": 14,
+      "ctr": 2.197802,
+      "leads": 0,
+      "generated_at": "2026-05-23T23:02:47.142469"
+    },
+    "2026-05-24": {
+      "spend": 2.86,
+      "impressions": 70,
+      "clicks": 3,
+      "ctr": 4.285714,
+      "leads": 1,
+      "generated_at": "2026-05-24T11:39:56.630358"
+    }
+  },
+  "rules": {
+    "auto_pause_ad": "אם CTR < 0.5% אחרי 150+ חשיפות — השהה מודעה",
+    "auto_alert_cpm": "אם CPM > 100 ₪ — שלח התראה לntfy",
+    "auto_alert_no_leads": "אם 50+ קליקים ו-0 לידים — שלח התראה על בעיית דף נחיתה",
+    "learning_phase": "7-14 ימים ראשונים — אל תשנה יותר מדי, תן לאלגוריתם ללמוד"
+  }
+}

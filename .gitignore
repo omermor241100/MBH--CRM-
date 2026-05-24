@@ -1,0 +1,26 @@
+# System
+.DS_Store
+**/.DS_Store
+
+# Logs
+*.log
+scripts/agents/reports/*_error.log
+scripts/agents/reports/server.log
+scripts/agents/reports/today.log
+scripts/agents/reports/marketing_agent.log
+scripts/agents/reports/researcher_agent.log
+
+# Sensitive / large
+scripts/marketing/config.json
+scripts/marketing/fb_poster/logs/
+scripts/agents/reports/seen_leads.json
+scripts/agents/reports/hourly_snapshots.json
+scripts/agents/reports/daily_summary_sent.txt
+scripts/agents/reports/daily_summary_history.json
+*.mp4
+media/
+
+# Python
+__pycache__/
+*.pyc
+.venv/

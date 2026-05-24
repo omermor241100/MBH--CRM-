@@ -1,0 +1,25 @@
+name: MBH — סיכום יומי חצות
+
+on:
+  schedule:
+    - cron: '0 21 * * *'   # 21:00 UTC = 00:00 Israel (קיץ UTC+3)
+  workflow_dispatch:        # הפעלה ידנית לבדיקה
+
+jobs:
+  summary:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Send daily summary to ntfy
+        run: python .github/scripts/daily_summary_cloud.py

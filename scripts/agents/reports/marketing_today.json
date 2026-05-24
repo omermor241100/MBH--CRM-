@@ -1,0 +1,38 @@
+{
+  "date": "24/05/2026",
+  "generated_at": "2026-05-24T11:39:56.630358",
+  "spend": 2.86,
+  "impressions": 70,
+  "clicks": 3,
+  "reach": 0,
+  "ctr": 4.285714,
+  "cpm": 40.857143,
+  "leads": 1,
+  "lp_views": 0,
+  "budget": 35,
+  "budget_used_pct": 8.2,
+  "video_retention": {
+    "p0": 0,
+    "p25": 0,
+    "p50": 0,
+    "p75": 0,
+    "p100": 0
+  },
+  "ads": {
+    "לפני ואחרי": {
+      "spend": 0.0,
+      "impressions": 0,
+      "clicks": 0,
+      "ctr": 0.0,
+      "campaign": "שיפוצים"
+    },
+    "לידים": {
+      "spend": 2.86,
+      "impressions": 70,
+      "clicks": 3,
+      "ctr": 4.285714,
+      "campaign": "לידים",
+      "leads": 1
+    }
+  }
+}
