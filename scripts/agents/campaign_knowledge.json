@@ -63,12 +63,12 @@
       "generated_at": "2026-05-24T23:57:48.092393"
     },
     "2026-05-25": {
-      "spend": 0.07,
-      "impressions": 2,
+      "spend": 0.0,
+      "impressions": 0,
       "clicks": 0,
-      "ctr": 0.0,
+      "ctr": 0,
       "leads": 0,
-      "generated_at": "2026-05-25T17:33:24.430354"
+      "generated_at": "2026-05-25T17:38:52.558408"
     }
   },
   "rules": {
