@@ -1,14 +1,14 @@
 {
-  "updated_at": "2026-05-24T20:51:32.380778",
+  "updated_at": "2026-05-25T13:32:01.131462",
   "current_problems": [
-    "Drop-off גבוה אחרי קליק — 8/22 הגיעו לדף"
+    "CTR נמוך — המודעות לא מספיק מושכות"
   ],
   "stats_summary": {
-    "spend": 8.38,
-    "clicks": 22,
-    "leads": 1,
-    "ctr": 3.5313,
-    "cpm": 13.451043,
-    "lp_views": 8
+    "spend": 0.0,
+    "clicks": 0,
+    "leads": 0,
+    "ctr": 0,
+    "cpm": 0,
+    "lp_views": 0
   }
 }
