@@ -1,35 +1,20 @@
 {
   "campaign": {
-    "id": "120247442878130704",
-    "adset_id": "120247442939030704",
+    "id": "120247600532040704",
+    "adset_id": "120247600532020704",
     "ads": {
-      "120247447992180704": "לפני ואחרי",
-      "120247447994660704": "שיפוצים כלליים"
+      "120247937688570704": "לידים - עותק"
     },
-    "lifetime_budget_ils": 620,
-    "daily_equivalent_ils": 20,
-    "end_date": "2026-06-17",
+    "daily_budget_ils": 50,
     "schedule": {
       "all_days": "16:00-22:00"
     },
     "target_age": "25-65",
-    "target_location": "עמק יזרעאל 20 ק\"מ",
+    "target_location": "30 ק\"מ מרמת ישי",
     "platforms": [
       "facebook",
       "instagram"
-    ],
-    "landing_url": "https://mor-building.com/landing.html",
-    "old_campaign_id": "120246959463450704",
-    "old_campaign_status": "PAUSED"
-  },
-  "leads_campaign": {
-    "id": "120247600532040704",
-    "adset_id": "120247600532020704",
-    "ad_id": "120247600532010704",
-    "daily_budget_ils": 15,
-    "schedule": {
-      "all_days": "24/7"
-    }
+    ]
   },
   "benchmarks": {
     "ctr_bad": 1.0,
@@ -83,7 +68,7 @@
       "clicks": 0,
       "ctr": 0.0,
       "leads": 0,
-      "generated_at": "2026-05-25T16:35:08.406819"
+      "generated_at": "2026-05-25T17:05:59.548349"
     }
   },
   "rules": {
