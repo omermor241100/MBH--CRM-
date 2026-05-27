@@ -1,14 +1,14 @@
 {
-  "updated_at": "2026-05-27T11:17:57.333275",
+  "updated_at": "2026-05-27T11:46:55.746236",
   "current_problems": [
     "Drop-off גבוה אחרי קליק — 0/12 הגיעו לדף"
   ],
   "stats_summary": {
-    "spend": 16.04,
+    "spend": 16.34,
     "clicks": 12,
     "leads": 1,
-    "ctr": 1.729107,
-    "cpm": 23.112392,
+    "ctr": 1.704545,
+    "cpm": 23.210227,
     "lp_views": 0
   }
 }
