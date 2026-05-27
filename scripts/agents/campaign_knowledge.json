@@ -71,12 +71,20 @@
       "generated_at": "2026-05-25T23:59:48.440867"
     },
     "2026-05-26": {
-      "spend": 52.13,
-      "impressions": 1247,
-      "clicks": 22,
-      "ctr": 1.764234,
+      "spend": 63.97,
+      "impressions": 1563,
+      "clicks": 27,
+      "ctr": 1.727447,
       "leads": 1,
-      "generated_at": "2026-05-26T18:47:01.364536"
+      "generated_at": "2026-05-26T23:09:24.520603"
+    },
+    "2026-05-27": {
+      "spend": 11.0,
+      "impressions": 396,
+      "clicks": 5,
+      "ctr": 1.262626,
+      "leads": 0,
+      "generated_at": "2026-05-27T08:53:43.551943"
     }
   },
   "rules": {
