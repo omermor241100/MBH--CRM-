@@ -1,6 +1,6 @@
 {
   "date": "28/05/2026",
-  "generated_at": "2026-05-28T00:06:30.088175",
+  "generated_at": "2026-05-28T00:11:45.671592",
   "stats": {
     "spend": 0.0,
     "impressions": 0,
@@ -34,8 +34,8 @@
     "p100": 0
   },
   "account_balance": {
-    "balance": 911.71,
+    "balance": 910.99,
     "spend_cap": 1354.45,
-    "available": 911.71
+    "available": 910.99
   }
 }
