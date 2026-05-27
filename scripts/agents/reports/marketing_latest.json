@@ -1,22 +1,22 @@
 {
   "date": "28/05/2026",
-  "generated_at": "2026-05-28T00:16:57.355795",
+  "generated_at": "2026-05-28T00:22:05.770946",
   "stats": {
-    "spend": 0.93,
-    "impressions": 30,
+    "spend": 1.03,
+    "impressions": 38,
     "clicks": 0,
-    "reach": 1,
+    "reach": 21,
     "ctr": 0.0,
-    "cpm": 31.0,
+    "cpm": 27.105263,
     "leads": 0,
     "lp_views": 0,
     "budget": 30,
-    "budget_used_pct": 3.1
+    "budget_used_pct": 3.4
   },
   "ads": {
     "לידים - עותק - עותק": {
-      "spend": 0.93,
-      "impressions": 30,
+      "spend": 1.25,
+      "impressions": 46,
       "clicks": 0,
       "ctr": 0.0
     }
@@ -27,15 +27,15 @@
   "actions_taken": [],
   "analysis": "You've hit your limit · resets 12:30am (Asia/Jerusalem)",
   "video_retention": {
-    "p0": 0,
-    "p25": 0,
+    "p0": 1,
+    "p25": 1,
     "p50": 0,
     "p75": 0,
     "p100": 0
   },
   "account_balance": {
-    "balance": 910.99,
+    "balance": 910.4000000000001,
     "spend_cap": 1354.45,
-    "available": 910.99
+    "available": 910.4000000000001
   }
 }
