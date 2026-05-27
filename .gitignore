@@ -14,7 +14,7 @@ scripts/agents/reports/researcher_agent.log
 scripts/marketing/config.json
 scripts/marketing/fb_poster/logs/
 scripts/agents/reports/seen_leads.json
-scripts/agents/reports/hourly_snapshots.json
+# scripts/agents/reports/hourly_snapshots.json
 scripts/agents/reports/daily_summary_sent.txt
 scripts/agents/reports/daily_summary_history.json
 *.mp4

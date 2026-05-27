@@ -1,0 +1,1494 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MBH Analytics</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+:root {
+  --bg:      #04060f;
+  --bg2:     #07091a;
+  --card:    #090c1e;
+  --card2:   #0c0f26;
+  --border:  #141830;
+  --border2: #1c2140;
+  --blue:    #3b82f6;
+  --bglow:   rgba(59,130,246,.22);
+  --green:   #10b981;
+  --gglow:   rgba(16,185,129,.22);
+  --red:     #ef4444;
+  --rglow:   rgba(239,68,68,.22);
+  --yellow:  #f59e0b;
+  --yglow:   rgba(245,158,11,.18);
+  --purple:  #8b5cf6;
+  --pglow:   rgba(139,92,246,.18);
+  --text:    #e2e8f0;
+  --text2:   #94a3b8;
+  --text3:   #475569;
+  --mono:    'JetBrains Mono', 'Courier New', monospace;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  background: var(--bg);
+  background-image: radial-gradient(circle at 1px 1px, rgba(59,130,246,.055) 1px, transparent 0);
+  background-size: 26px 26px;
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+}
+
+body::after {
+  content: '';
+  position: fixed; inset: 0;
+  background: repeating-linear-gradient(0deg, rgba(0,0,0,.035) 0, rgba(0,0,0,.035) 1px, transparent 1px, transparent 3px);
+  pointer-events: none; z-index: 9998;
+}
+
+/* ── SIDEBAR ── */
+.sidebar {
+  width: 76px; min-height: 100vh;
+  background: linear-gradient(180deg,#030510 0%,#050817 100%);
+  border-left: 1px solid var(--border);
+  display: flex; flex-direction: column; align-items: center;
+  padding: 20px 0; gap: 4px;
+  position: fixed; right: 0; top: 0; z-index: 200;
+}
+.sidebar-logo {
+  font-size: 18px; font-weight: 800; letter-spacing: 1px; margin-bottom: 22px;
+  background: linear-gradient(135deg, var(--blue), var(--purple));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.nav-btn {
+  width: 52px; height: 52px; border-radius: 14px;
+  border: 1px solid transparent; background: transparent;
+  color: var(--text3); cursor: pointer; font-size: 19px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  transition: all .2s; gap: 2px; position: relative;
+}
+.nav-btn:hover { background: rgba(59,130,246,.08); border-color: var(--border2); color: var(--text2); }
+.nav-btn.active {
+  background: rgba(59,130,246,.14); border-color: rgba(59,130,246,.35);
+  color: var(--blue); box-shadow: 0 0 24px rgba(59,130,246,.12);
+}
+.nav-btn.active::before {
+  content: ''; position: absolute; left: -1px; top: 50%; transform: translateY(-50%);
+  width: 3px; height: 22px; border-radius: 0 3px 3px 0;
+  background: var(--blue); box-shadow: 0 0 12px var(--blue);
+}
+.nav-label { font-size: 9px; font-weight: 600; letter-spacing: .3px; }
+.nav-divider { width: 36px; height: 1px; background: var(--border); margin: 5px 0; }
+
+/* ── MAIN ── */
+.main { margin-right: 76px; flex: 1; min-height: 100vh; }
+
+.topbar {
+  background: rgba(4,6,15,.96); backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  height: 54px; padding: 0 28px;
+  display: flex; align-items: center; justify-content: space-between;
+  position: sticky; top: 0; z-index: 100;
+}
+.topbar-title { font-size: 14px; font-weight: 700; color: var(--text); }
+.topbar-right { display: flex; align-items: center; gap: 12px; }
+
+.status-live {
+  display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--text3);
+  background: rgba(16,185,129,.07); border: 1px solid rgba(16,185,129,.18);
+  border-radius: 20px; padding: 4px 12px;
+}
+.pulse { width: 7px; height: 7px; border-radius: 50%; background: var(--green);
+  box-shadow: 0 0 8px var(--green); animation: blink 2s infinite; }
+@keyframes blink { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(.8)} }
+
+.clock { font-family: var(--mono); font-size: 13px; font-weight: 600; color: var(--text2); letter-spacing: 1px; }
+.refresh-btn {
+  background: var(--card2); border: 1px solid var(--border2);
+  color: var(--text3); padding: 6px 14px; border-radius: 8px; cursor: pointer; font-size: 12px; transition: all .2s;
+}
+.refresh-btn:hover { color: var(--text); border-color: var(--blue); }
+.freshness { font-size: 11px; color: var(--text3); font-family: var(--mono); }
+.freshness.stale { color: var(--yellow); }
+
+/* ── PAGES ── */
+.page { display: none; padding: 24px 28px; }
+.page.active { display: block; animation: fadein .18s ease; }
+@keyframes fadein { from{opacity:0;transform:translateY(5px)} to{opacity:1;transform:none} }
+
+/* ── KPIs ── */
+.kpi-grid { display: grid; gap: 12px; margin-bottom: 20px; }
+.kpi-grid-7 { grid-template-columns: repeat(7,1fr); }
+.kpi-grid-6 { grid-template-columns: repeat(6,1fr); }
+.kpi-grid-5 { grid-template-columns: repeat(5,1fr); }
+.kpi-grid-4 { grid-template-columns: repeat(4,1fr); }
+@media(max-width:1400px){ .kpi-grid-7{grid-template-columns:repeat(4,1fr)} }
+@media(max-width:1100px){ .kpi-grid-5,.kpi-grid-6{grid-template-columns:repeat(3,1fr)} }
+
+.kpi {
+  background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 18px 18px 14px;
+  transition: all .25s; position: relative; overflow: hidden;
+}
+.kpi::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg,transparent,var(--border2),transparent); transition: .3s;
+}
+.kpi:hover { border-color: var(--border2); transform: translateY(-2px); box-shadow: 0 6px 24px rgba(0,0,0,.4); }
+.kpi:hover::before { background: linear-gradient(90deg,transparent,var(--blue),transparent); }
+
+.kpi-label { font-size: 10px; color: var(--text3); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; font-weight: 600; }
+.kpi-value { font-family: var(--mono); font-size: 26px; font-weight: 700; color: var(--text); line-height: 1; transition: all .4s; }
+.kpi-value.green { color: var(--green); text-shadow: 0 0 24px var(--gglow); }
+.kpi-value.red   { color: var(--red);   text-shadow: 0 0 24px var(--rglow); }
+.kpi-value.blue  { color: var(--blue);  text-shadow: 0 0 24px var(--bglow); }
+.kpi-value.yellow{ color: var(--yellow);text-shadow: 0 0 24px var(--yglow); }
+.kpi-sub { font-size: 11px; color: var(--text3); margin-top: 7px; }
+.kpi-flash { animation: flash .55s ease; }
+@keyframes flash { 0%{background:rgba(59,130,246,.12)} 100%{background:transparent} }
+
+.progress-bar { height: 3px; background: var(--border); border-radius: 2px; overflow: hidden; margin-top: 10px; }
+.progress-fill {
+  height: 100%; border-radius: 2px;
+  background: linear-gradient(90deg, var(--blue), var(--purple));
+  transition: width .8s cubic-bezier(.4,0,.2,1);
+  box-shadow: 0 0 12px var(--bglow);
+}
+
+/* ── CARDS ── */
+.card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 14px; padding: 20px; margin-bottom: 16px; transition: border-color .2s;
+}
+.card:hover { border-color: var(--border2); }
+.card-title {
+  font-size: 10px; color: var(--text3); text-transform: uppercase;
+  letter-spacing: 1.1px; margin-bottom: 18px;
+  display: flex; align-items: center; gap: 8px; font-weight: 600;
+}
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+.three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+@media(max-width:900px){ .two-col,.three-col{grid-template-columns:1fr} }
+
+/* ── CHARTS ── */
+.chart-wrap { position: relative; height: 220px; }
+.chart-wrap-tall { position: relative; height: 280px; }
+
+/* ── TABLE ── */
+table { width: 100%; border-collapse: collapse; }
+th { text-align: right; padding: 10px 14px; font-size: 10px; color: var(--text3); border-bottom: 1px solid var(--border); text-transform: uppercase; letter-spacing: .8px; font-weight: 600; }
+td { padding: 12px 14px; font-size: 13px; border-bottom: 1px solid rgba(20,24,48,.7); }
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: rgba(59,130,246,.04); }
+.no-data { color: var(--text3); font-size: 13px; text-align: center; padding: 30px; }
+
+/* ── LOG ── */
+.live-log {
+  font-family: var(--mono); font-size: 12px; max-height: 260px; overflow-y: auto;
+  background: var(--bg2); border-radius: 10px; padding: 12px 14px;
+}
+.live-log::-webkit-scrollbar { width: 4px; }
+.live-log::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+.log-entry { padding: 4px 0; border-bottom: 1px solid rgba(20,24,48,.6); display: flex; gap: 10px; align-items: flex-start; }
+.log-time { color: var(--text3); min-width: 60px; }
+.log-agent { min-width: 110px; font-weight: 600; }
+.log-msg { color: var(--text2); flex: 1; }
+
+/* ── MISC ── */
+.badge { font-size: 9px; padding: 2px 8px; border-radius: 10px; background: var(--border); color: var(--text3); font-weight: 600; letter-spacing: .5px; }
+.analysis-box { font-size: 13px; line-height: 1.85; color: var(--text2); white-space: pre-wrap; border-right: 3px solid var(--blue); padding-right: 16px; }
+.research-box  { font-size: 13px; line-height: 1.85; color: var(--text2); white-space: pre-wrap; border-right: 3px solid var(--purple); padding-right: 16px; }
+.insight-tag { display: inline-block; border-radius: 20px; padding: 4px 12px; font-size: 12px; margin: 3px; background: var(--card2); border: 1px solid var(--border2); color: var(--text2); }
+.insight-tag.problem { border-color: rgba(239,68,68,.4); color: var(--red); background: rgba(239,68,68,.05); }
+.insight-tag.action  { border-color: rgba(16,185,129,.4); color: var(--green); background: rgba(16,185,129,.05); }
+.stat-row { display: flex; justify-content: space-between; align-items: center; padding: 11px 0; border-bottom: 1px solid rgba(20,24,48,.7); font-size: 13px; }
+.stat-row:last-child { border-bottom: none; }
+.stat-label { color: var(--text3); }
+.stat-value { font-weight: 600; color: var(--text); }
+.section-label { font-size: 10px; font-weight: 700; color: var(--text3); text-transform: uppercase; letter-spacing: 1.5px; margin: 24px 0 14px; }
+.green  { color: var(--green)  !important; }
+.red    { color: var(--red)    !important; }
+.yellow { color: var(--yellow) !important; }
+.blue   { color: var(--blue)   !important; }
+.up { color: var(--green); } .down { color: var(--red); } .neutral { color: var(--yellow); }
+
+/* ── GROUP SELECTOR ── */
+.group-search-wrap { position: relative; margin-bottom: 12px; }
+.group-search { width: 100%; background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; padding: 10px 38px 10px 14px; color: var(--text); font-size: 13px; outline: none; transition: border-color .2s; }
+.group-search:focus { border-color: var(--blue); }
+.group-search-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text3); }
+.group-toolbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; font-size: 12px; }
+.group-toolbar-btns { display: flex; gap: 8px; }
+.group-toolbar-btn { background: var(--card2); border: 1px solid var(--border); color: var(--text3); padding: 5px 12px; border-radius: 7px; cursor: pointer; font-size: 11px; transition: .15s; }
+.group-toolbar-btn:hover { background: var(--border); color: var(--text); }
+.group-list { max-height: 400px; overflow-y: auto; border: 1px solid var(--border); border-radius: 10px; }
+.group-list::-webkit-scrollbar { width: 4px; }
+.group-list::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+.group-row { display: flex; align-items: center; justify-content: space-between; padding: 11px 16px; border-bottom: 1px solid rgba(20,24,48,.5); cursor: pointer; transition: .15s; gap: 12px; }
+.group-row:last-child { border-bottom: none; }
+.group-row:hover { background: rgba(59,130,246,.04); }
+.group-row.selected { background: rgba(59,130,246,.09); }
+.group-row-info { flex: 1; min-width: 0; }
+.group-row-name { font-size: 13px; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.group-row.selected .group-row-name { color: var(--blue); }
+.group-row-url { font-size: 10px; color: var(--text3); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.group-cb { width: 18px; height: 18px; accent-color: var(--blue); cursor: pointer; flex-shrink: 0; }
+.group-save-btn { width: 100%; margin-top: 14px; background: linear-gradient(135deg,var(--blue),var(--purple)); border: none; color: #fff; padding: 11px; border-radius: 10px; font-size: 13px; font-weight: 700; cursor: pointer; transition: .2s; box-shadow: 0 4px 20px rgba(59,130,246,.2); }
+.group-save-btn:hover { opacity: .85; transform: translateY(-1px); }
+.group-save-btn:disabled { opacity: .4; cursor: default; transform: none; }
+.group-count-badge { background: rgba(59,130,246,.12); border: 1px solid rgba(59,130,246,.3); color: var(--blue); border-radius: 12px; padding: 2px 10px; font-size: 11px; font-weight: 600; }
+
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<nav class="sidebar">
+  <div class="sidebar-logo">M</div>
+  <button class="nav-btn active" id="nav-today" onclick="showPage('today')">
+    <span>📊</span><span class="nav-label">היום</span>
+  </button>
+  <button class="nav-btn" id="nav-week" onclick="showPage('week')">
+    <span>📅</span><span class="nav-label">שבוע</span>
+  </button>
+  <div class="nav-divider"></div>
+  <button class="nav-btn" id="nav-agents" onclick="showPage('agents')">
+    <span>🤖</span><span class="nav-label">סוכנים</span>
+  </button>
+  <button class="nav-btn" id="nav-poster" onclick="showPage('poster')">
+    <span>📣</span><span class="nav-label">פוסטר</span>
+  </button>
+</nav>
+
+<!-- MAIN -->
+<div class="main">
+  <div class="topbar">
+    <div class="topbar-title" id="page-title">📊 נתוני היום</div>
+    <div class="topbar-right">
+      <span class="freshness" id="freshness-label">—</span>
+      <span class="status-live"><span class="pulse"></span><span id="live-txt">מערכת פעילה</span></span>
+      <span class="clock" id="clock">—</span>
+      <button class="refresh-btn" onclick="loadAll()">↻ רענן</button>
+    </div>
+  </div>
+
+  <!-- ═══════════ PAGE: TODAY ═══════════ -->
+  <div class="page active" id="page-today">
+    <div class="kpi-grid kpi-grid-7">
+      <div class="kpi" id="kpi-spend">
+        <div class="kpi-label">הוצאה היום</div>
+        <div class="kpi-value green" id="t-spend">—</div>
+        <div class="kpi-sub" id="t-spend-sub">מתוך 30 ₪</div>
+        <div class="progress-bar"><div class="progress-fill" id="t-prog" style="width:0%"></div></div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">חשיפות</div>
+        <div class="kpi-value blue" id="t-imp">—</div>
+        <div class="kpi-sub" id="t-reach">הגעה: —</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">קליקים</div>
+        <div class="kpi-value" id="t-clicks">—</div>
+        <div class="kpi-sub" id="t-ctr">CTR: —%</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">CPM</div>
+        <div class="kpi-value" id="t-cpm">—</div>
+        <div class="kpi-sub">₪ לאלף חשיפות</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">לידים</div>
+        <div class="kpi-value" id="t-leads">—</div>
+        <div class="kpi-sub">פניות שהתקבלו</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">כניסות לאתר</div>
+        <div class="kpi-value blue" id="t-lpviews">—</div>
+        <div class="kpi-sub">LP Views</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">ניצול תקציב</div>
+        <div class="kpi-value" id="t-budpct">—</div>
+        <div class="kpi-sub" id="t-updated" style="margin-top:7px;"></div>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div class="card">
+        <div class="card-title">⏰ חשיפות לפי שעה <span class="badge">היום</span></div>
+        <div class="chart-wrap"><canvas id="hourly-chart"></canvas></div>
+        <div style="font-size:11px;color:var(--text3);margin-top:8px;text-align:center;" id="hourly-note">ממתין לנתוני שעה...</div>
+      </div>
+      <div class="card">
+        <div class="card-title">🎯 ביצועים לפי מודעה</div>
+        <table>
+          <thead><tr><th>מודעה</th><th>קמפיין</th><th>הוצאה</th><th>חשיפות</th><th>קליקים</th><th>CTR</th><th>לידים</th></tr></thead>
+          <tbody id="ads-table"><tr><td colspan="6" class="no-data">טוען...</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">🎬 שמירת צפייה בסרטון <span class="badge">סטורי / ריילס</span> <span style="font-size:11px;color:var(--text3);" id="retention-note-today"></span></div>
+      <div class="chart-wrap"><canvas id="retention-chart-today"></canvas></div>
+    </div>
+
+    <div class="two-col">
+      <div class="card">
+        <div class="card-title">📍 חשיפות לפי אזור <span class="badge">עמק יזרעאל</span></div>
+        <div class="chart-wrap"><canvas id="geo-chart"></canvas></div>
+      </div>
+      <div class="card">
+        <div class="card-title">📈 ביצועים יחסיים לממוצע ענף</div>
+        <div class="chart-wrap"><canvas id="radar-chart"></canvas></div>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div class="card">
+        <div class="card-title">⚠️ בעיות שזוהו</div>
+        <div id="problems-list"><div class="no-data">אין בעיות</div></div>
+      </div>
+      <div class="card">
+        <div class="card-title">✅ פעולות שבוצעו</div>
+        <div id="actions-list"><div class="no-data">אין פעולות</div></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">🤖 ניתוח Marketing Agent <span class="badge">Claude AI</span></div>
+      <div class="analysis-box" id="analysis-text">—</div>
+    </div>
+  </div>
+
+  <!-- ═══════════ PAGE: WEEK ═══════════ -->
+  <div class="page" id="page-week">
+    <div class="section-label">📅 סיכום שבועי — 7 ימים אחרונים</div>
+
+    <div class="kpi-grid kpi-grid-5" style="margin-bottom:20px;">
+      <div class="kpi">
+        <div class="kpi-label">סה"כ הוצאה</div>
+        <div class="kpi-value green" id="w-spend">—</div>
+        <div class="kpi-sub" id="w-spend-sub">טוען...</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">סה"כ חשיפות</div>
+        <div class="kpi-value blue" id="w-imp">—</div>
+        <div class="kpi-sub" id="w-imp-sub">ממוצע: —</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">CTR ממוצע</div>
+        <div class="kpi-value yellow" id="w-ctr">—</div>
+        <div class="kpi-sub">ממוצע ענף: 0.8%</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">לידים</div>
+        <div class="kpi-value" id="w-leads">—</div>
+        <div class="kpi-sub">סה"כ השבוע</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">כניסות לאתר</div>
+        <div class="kpi-value blue" id="w-lpviews">—</div>
+        <div class="kpi-sub">LP Views</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title" style="justify-content:space-between;">
+        <span>💰 הוצאה יומית</span>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <button id="spend-prev" onclick="shiftWeek(-1)" style="background:var(--card2);border:1px solid var(--border2);color:var(--text2);width:28px;height:28px;border-radius:7px;cursor:pointer;font-size:14px;transition:.15s;" title="שבוע קודם">‹</button>
+          <span id="spend-range" style="font-size:11px;color:var(--text3);min-width:90px;text-align:center;font-family:var(--mono);">—</span>
+          <button id="spend-next" onclick="shiftWeek(1)" style="background:var(--card2);border:1px solid var(--border2);color:var(--text2);width:28px;height:28px;border-radius:7px;cursor:pointer;font-size:14px;transition:.15s;" title="שבוע הבא">›</button>
+        </div>
+      </div>
+      <div class="chart-wrap-tall"><canvas id="daily-spend-chart"></canvas></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">📊 CTR יומי — כל הקמפיין</div>
+      <div class="chart-wrap-tall"><canvas id="daily-ctr-chart"></canvas></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">🎬 שמירת צפייה בסרטון <span class="badge">מצטבר שבועי</span></div>
+      <div class="chart-wrap"><canvas id="retention-chart-week"></canvas></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">📋 יומן ביצועים יומי <span class="badge" id="week-updated">—</span></div>
+      <div style="overflow-y:auto;max-height:278px;border-radius:8px;border:1px solid var(--border);">
+        <table style="margin-bottom:0;">
+          <thead style="position:sticky;top:0;background:var(--card);z-index:1;">
+            <tr><th>תאריך</th><th>הוצאה</th><th>חשיפות</th><th>קליקים</th><th>CTR</th><th>לידים</th><th>הערות</th></tr>
+          </thead>
+          <tbody id="daily-table"><tr><td colspan="7" class="no-data">טוען...</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">👁️ חשיפות וקליקים יומיים</div>
+      <div class="chart-wrap-tall"><canvas id="daily-imp-chart"></canvas></div>
+    </div>
+  </div>
+
+  <!-- ═══════════ PAGE: AGENTS ═══════════ -->
+  <div class="page" id="page-agents">
+    <div class="section-label">🤖 מסכת סוכנים — סיכומים ולקחים</div>
+
+    <div class="three-col">
+      <div class="kpi">
+        <div class="kpi-label">📊 Marketing Agent</div>
+        <div class="kpi-value green" style="font-size:15px;">פעיל</div>
+        <div class="kpi-sub">כל 30 דקות</div>
+        <div class="kpi-sub" id="ma-last" style="margin-top:4px;">—</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">🔬 Researcher Agent</div>
+        <div class="kpi-value green" style="font-size:15px;">פעיל</div>
+        <div class="kpi-sub">כל שעה</div>
+        <div class="kpi-sub" id="ra-last" style="margin-top:4px;">—</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">🌐 Dashboard Server</div>
+        <div class="kpi-value green" style="font-size:15px;">פעיל</div>
+        <div class="kpi-sub">תמיד דלוק</div>
+        <div class="kpi-sub" style="margin-top:4px;">localhost:8765</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">📊 ניתוח אחרון — Marketing Agent <span class="badge">Claude AI</span></div>
+      <div class="analysis-box" id="agent-analysis">—</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">🔬 מחקר אחרון — Researcher Agent <span class="badge" id="research-topic-badge">—</span></div>
+      <div class="research-box" id="agent-research">—</div>
+    </div>
+
+    <div class="two-col">
+      <div class="card">
+        <div class="card-title">💡 מסקנות עיקריות</div>
+        <div id="conclusions-list">
+          <div class="stat-row"><div class="stat-label">CTR ביום 2</div><div class="stat-value green">5.64% — מעולה</div></div>
+          <div class="stat-row"><div class="stat-label">CPM שלב לימוד</div><div class="stat-value yellow">83.7₪ — גבוה, צפוי</div></div>
+          <div class="stat-row"><div class="stat-label">לידים</div><div class="stat-value red">0 — בשלב לימוד</div></div>
+          <div class="stat-row"><div class="stat-label">קמפיין חדש עם שעות</div><div class="stat-value green">פעיל ✓</div></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">📚 לקחים מהתקופה</div>
+        <div id="lessons-list">
+          <div class="stat-row"><div class="stat-label" style="color:var(--red);">⚠️ לעולם לא למחוק קמפיינים מהר</div><div class="stat-value" style="color:var(--red);">חסם API</div></div>
+          <div class="stat-row"><div class="stat-label">✅ שעות שיא א-ה</div><div class="stat-value">16:00–22:00</div></div>
+          <div class="stat-row"><div class="stat-label">✅ שעות שיא שישי</div><div class="stat-value">09:00–13:00</div></div>
+          <div class="stat-row"><div class="stat-label">⏳ המתן 14 ימים לאופטימיזציה</div><div class="stat-value">—</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">📜 היסטוריית מחקרים <span class="badge" id="history-count">—</span></div>
+      <div id="research-history-list"><div class="no-data">טוען...</div></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">⚡ לוג פעולות חי <span style="font-size:11px;color:var(--text3);" id="log-count"></span></div>
+      <div class="live-log" id="live-log"><div class="no-data">ממתין...</div></div>
+    </div>
+  </div>
+
+  <!-- ═══════════ PAGE: POSTER ═══════════ -->
+  <div class="page" id="page-poster">
+    <div class="section-label">📣 פוסטר קבוצות פייסבוק — מצב ובקרה</div>
+
+    <div class="card" style="border:1px solid var(--border2);">
+      <div class="card-title">📝 תוכן הפוסט הבא</div>
+      <div id="poster-status-banner" style="display:none;padding:8px 14px;border-radius:8px;font-size:13px;margin-bottom:14px;text-align:center;font-weight:600;"></div>
+      <textarea id="post-text" class="post-editor" placeholder="כתוב כאן את טקסט הפוסט..." style="width:100%;min-height:120px;background:var(--bg2);border:1px solid var(--border2);color:var(--text);border-radius:10px;padding:12px;font-size:14px;font-family:inherit;resize:vertical;direction:rtl;outline:none;"></textarea>
+      <div style="margin-top:12px;">
+        <label style="font-size:13px;color:var(--text3);display:block;margin-bottom:8px;">📎 תמונה / סרטון (אופציונלי)</label>
+        <div id="media-drop" onclick="document.getElementById('media-input').click()" style="border:2px dashed var(--border2);border-radius:10px;padding:20px;text-align:center;cursor:pointer;color:var(--text3);font-size:13px;transition:.2s;" ondragover="event.preventDefault();this.style.borderColor='var(--blue)'" ondragleave="this.style.borderColor='var(--border2)'" ondrop="handleMediaDrop(event)">
+          לחץ או גרור קובץ לכאן<br><span style="font-size:11px;color:var(--text3);">MP4, MOV, JPG, PNG — עד 100MB</span>
+        </div>
+        <input type="file" id="media-input" accept="video/*,image/*" style="display:none" onchange="handleMediaSelect(this)">
+        <div id="media-preview" style="margin-top:10px;font-size:12px;color:var(--blue);"></div>
+      </div>
+      <div style="display:flex;gap:10px;margin-top:16px;align-items:center;">
+        <button onclick="savePost()" style="background:linear-gradient(135deg,var(--green),#059669);border:none;color:#fff;padding:10px 24px;border-radius:9px;font-size:14px;font-weight:700;cursor:pointer;flex:1;box-shadow:0 4px 20px rgba(16,185,129,.2);">💾 שמור פוסט</button>
+        <button onclick="togglePause()" id="pause-btn" style="background:var(--card2);border:1px solid var(--border2);color:var(--text2);padding:10px 20px;border-radius:9px;font-size:13px;cursor:pointer;">⏸ מושהה</button>
+      </div>
+      <div id="post-save-status" style="font-size:12px;color:var(--text3);margin-top:8px;text-align:center;"></div>
+    </div>
+
+    <div class="kpi-grid kpi-grid-5" style="margin-bottom:20px;">
+      <div class="kpi">
+        <div class="kpi-label">פורסמו היום</div>
+        <div class="kpi-value green" id="p-ok-today">—</div>
+        <div class="kpi-sub" id="p-max-today">מתוך 20</div>
+        <div class="progress-bar"><div class="progress-fill" id="p-prog" style="width:0%"></div></div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">נכשלו היום</div>
+        <div class="kpi-value red" id="p-fail-today">—</div>
+        <div class="kpi-sub">קבוצות שנכשלו</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">השבוע</div>
+        <div class="kpi-value blue" id="p-ok-week">—</div>
+        <div class="kpi-sub" id="p-fail-week">נכשלו: —</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">ריצה הבאה</div>
+        <div class="kpi-value" id="p-next" style="font-size:17px;">—</div>
+        <div class="kpi-sub" id="p-agent-status">LaunchAgent: —</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">כתובת IP</div>
+        <div class="kpi-value blue" id="p-ip" style="font-size:13px;">—</div>
+        <div class="kpi-sub" id="p-offdays">ימי מנוחה: —</div>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div class="card" id="run-card">
+        <div class="card-title">🚀 הפעלה ידנית</div>
+        <p style="font-size:13px;color:var(--text3);margin-bottom:16px;">מריץ סשן מיידי — עד 4 קבוצות, בלי להמתין לשעה.</p>
+        <button id="run-btn" onclick="runPoster()" style="background:linear-gradient(135deg,var(--blue),var(--purple));border:none;color:#fff;padding:12px 28px;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;width:100%;transition:.2s;box-shadow:0 4px 24px rgba(59,130,246,.25);">▶ הרץ עכשיו</button>
+        <div id="run-status" style="font-size:12px;color:var(--text3);margin-top:10px;text-align:center;"></div>
+      </div>
+      <div class="card">
+        <div class="card-title">🏆 קבוצות פעילות ביותר</div>
+        <div id="p-top-groups"><div class="no-data">טוען...</div></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">👥 בחירת קבוצות לפרסום <span class="group-count-badge" id="g-sel-count">טוען...</span></div>
+      <div class="group-search-wrap">
+        <input class="group-search" id="g-search" type="text" placeholder="חפש קבוצה לפי שם..." oninput="filterGroupList(this.value)">
+        <span class="group-search-icon">🔍</span>
+      </div>
+      <div class="group-toolbar">
+        <div class="group-toolbar-btns">
+          <button class="group-toolbar-btn" onclick="toggleAllGroups(true)">✓ בחר הכל</button>
+          <button class="group-toolbar-btn" onclick="toggleAllGroups(false)">✗ נקה הכל</button>
+        </div>
+        <span id="g-total-count" style="font-size:12px;color:var(--text3);">—</span>
+      </div>
+      <div class="group-list" id="g-list"><div class="no-data">טוען קבוצות...</div></div>
+      <button class="group-save-btn" id="g-save-btn" onclick="saveGroupSelection()">💾 שמור בחירה</button>
+      <div id="g-save-status" style="font-size:12px;color:var(--text3);margin-top:8px;text-align:center;"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">📋 פוסטים של היום <span class="badge" id="p-today-count">—</span></div>
+      <table>
+        <thead><tr><th>קבוצה</th><th>שעה</th><th>סטטוס</th><th>הערה</th></tr></thead>
+        <tbody id="p-posts-table"><tr><td colspan="4" class="no-data">טוען...</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ═══════════ PAGE: DAY DETAIL ═══════════ -->
+  <div class="page" id="page-day">
+
+    <div style="display:flex;align-items:center;gap:14px;margin-bottom:22px;flex-wrap:wrap;">
+      <button onclick="showPage('week')" style="background:var(--card2);border:1px solid var(--border2);color:var(--text2);padding:8px 16px;border-radius:9px;cursor:pointer;font-size:13px;transition:.2s;">← חזרה לסיכום שבועי</button>
+      <div>
+        <div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px;">נתוני יום</div>
+        <div style="font-size:22px;font-weight:700;font-family:var(--mono);color:var(--text);" id="day-title">—</div>
+      </div>
+      <span id="day-status-badge" style="margin-right:auto;font-size:12px;padding:4px 16px;border-radius:20px;font-weight:600;"></span>
+    </div>
+
+    <div class="kpi-grid kpi-grid-7" style="margin-bottom:20px;">
+      <div class="kpi"><div class="kpi-label">הוצאה</div><div class="kpi-value" id="dd-spend">—</div><div class="kpi-sub" id="dd-spend-sub"></div><div class="progress-bar"><div class="progress-fill" id="dd-prog" style="width:0%"></div></div></div>
+      <div class="kpi"><div class="kpi-label">חשיפות</div><div class="kpi-value blue" id="dd-imp">—</div><div class="kpi-sub" id="dd-imp-sub"></div></div>
+      <div class="kpi"><div class="kpi-label">קליקים</div><div class="kpi-value" id="dd-clicks">—</div><div class="kpi-sub" id="dd-ctr-sub"></div></div>
+      <div class="kpi"><div class="kpi-label">CTR</div><div class="kpi-value" id="dd-ctr">—</div><div class="kpi-sub">ממוצע ענף: 0.8%</div></div>
+      <div class="kpi"><div class="kpi-label">CPM</div><div class="kpi-value" id="dd-cpm">—</div><div class="kpi-sub">₪ לאלף חשיפות</div></div>
+      <div class="kpi"><div class="kpi-label">לידים</div><div class="kpi-value" id="dd-leads">—</div><div class="kpi-sub">פניות שהתקבלו</div></div>
+      <div class="kpi"><div class="kpi-label">כניסות לאתר</div><div class="kpi-value blue" id="dd-lp">—</div><div class="kpi-sub">LP Views</div></div>
+    </div>
+
+    <div class="two-col">
+      <div class="card">
+        <div class="card-title">💰 הוצאה — יום זה בהקשר הקמפיין</div>
+        <div class="chart-wrap-tall"><canvas id="dd-context-chart"></canvas></div>
+      </div>
+      <div class="card">
+        <div class="card-title">📊 CTR — יום זה לעומת שאר הימים</div>
+        <div class="chart-wrap-tall"><canvas id="dd-ctr-chart"></canvas></div>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div class="card">
+        <div class="card-title">🎯 ביצועים יחסיים לממוצע ענף</div>
+        <div class="chart-wrap"><canvas id="dd-radar-chart"></canvas></div>
+      </div>
+      <div class="card">
+        <div class="card-title">⏰ חשיפות לפי שעה <span class="badge" id="dd-hourly-badge">היום בלבד</span></div>
+        <div class="chart-wrap"><canvas id="dd-hourly-chart"></canvas></div>
+        <div style="font-size:11px;color:var(--text3);margin-top:8px;text-align:center;" id="dd-hourly-note"></div>
+      </div>
+    </div>
+
+    <div class="card" id="dd-note-card" style="display:none;">
+      <div class="card-title">📝 הערות על היום</div>
+      <div id="dd-note-text" style="font-size:14px;color:var(--text2);line-height:1.8;"></div>
+    </div>
+
+  </div>
+
+</div><!-- /main -->
+
+
+<script>
+// ── ENVIRONMENT DETECTION ──
+const IS_LOCAL = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+const GITHUB_RAW = 'https://raw.githubusercontent.com/omermor241100/MBH--CRM-/main/scripts/agents/reports/';
+const DATA_BASE = IS_LOCAL ? './reports/' : GITHUB_RAW;
+const API_BASE  = IS_LOCAL ? '' : null; // API calls disabled on GitHub Pages
+if (!IS_LOCAL) document.addEventListener('DOMContentLoaded', () => {
+  const card = document.getElementById('run-card');
+  if (card) card.style.display = 'none';
+});
+
+// ── NAVIGATION ──
+const TITLES = { today:'📊 נתוני היום', week:'📅 סיכום שבועי', agents:'🤖 סוכנים ולקחים', poster:'📣 פוסטר קבוצות פייסבוק', day:'📅 נתוני יום' };
+function showPage(p) {
+  document.querySelectorAll('.page').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
+  document.getElementById('page-' + p).classList.add('active');
+  if (document.getElementById('nav-' + p)) document.getElementById('nav-' + p).classList.add('active');
+  document.getElementById('page-title').textContent = TITLES[p] || '—';
+}
+
+// ── CLOCK ──
+setInterval(() => { document.getElementById('clock').textContent = new Date().toLocaleTimeString('he-IL'); }, 1000);
+
+// ── NUMBER ANIMATION ──
+function animateNum(el, to, decimals = 0, suffix = '') {
+  const from = parseFloat(el.dataset.raw || 0);
+  if (from === to) return;
+  el.dataset.raw = to;
+  const start = performance.now();
+  const dur = 550;
+  (function step(ts) {
+    const p = Math.min((ts - start) / dur, 1);
+    const ease = 1 - Math.pow(1 - p, 3);
+    const cur = from + (to - from) * ease;
+    el.textContent = cur.toFixed(decimals) + suffix;
+    if (p < 1) requestAnimationFrame(step);
+    else { el.textContent = to.toFixed(decimals) + suffix; el.classList.add('kpi-flash'); setTimeout(() => el.classList.remove('kpi-flash'), 600); }
+  })(start);
+}
+
+// ── FRESHNESS ──
+let _lastFetch = null;
+function updateFreshness() {
+  if (!_lastFetch) return;
+  const secs = Math.round((Date.now() - _lastFetch) / 1000);
+  const mins = Math.floor(secs / 60);
+  const el = document.getElementById('freshness-label');
+  if (secs < 60) { el.textContent = `עדכון: לפני ${secs}ש׳`; el.className = 'freshness'; }
+  else { el.textContent = `עדכון: לפני ${mins} דק׳`; el.className = mins > 35 ? 'freshness stale' : 'freshness'; }
+}
+setInterval(updateFreshness, 5000);
+setInterval(loadAll, 5000);
+
+// ── CHART DEFAULTS ──
+Chart.defaults.color = '#475569';
+Chart.defaults.borderColor = '#141830';
+
+// ── CHART: HOURLY ──
+const hourlyCtx = document.getElementById('hourly-chart').getContext('2d');
+const hourlyGrad = hourlyCtx.createLinearGradient(0, 0, 0, 220);
+hourlyGrad.addColorStop(0, 'rgba(59,130,246,.5)');
+hourlyGrad.addColorStop(1, 'rgba(59,130,246,.05)');
+const hourlyChart = new Chart(hourlyCtx, {
+  type: 'bar',
+  data: {
+    labels: Array.from({length:24}, (_,i) => String(i).padStart(2,'0') + ':00'),
+    datasets: [{
+      label: 'חשיפות', data: Array(24).fill(0),
+      backgroundColor: hourlyGrad, borderColor: '#3b82f6', borderWidth: 1, borderRadius: 4,
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { grid: { color: '#141830' }, ticks: { font: { size: 9 }, maxRotation: 0 } },
+      y: { grid: { color: '#141830' }, ticks: { font: { size: 10 }, stepSize: 1 } }
+    }
+  }
+});
+
+// ── CHART: GEO ──
+const geoCtx = document.getElementById('geo-chart').getContext('2d');
+new Chart(geoCtx, {
+  type: 'doughnut',
+  data: {
+    labels: ['רמת ישי', 'עפולה', 'יוקנעם', 'כפר תבור', 'מגדל העמק', 'אחר'],
+    datasets: [{ data: [28,22,18,14,10,8], backgroundColor: ['#3b82f6','#8b5cf6','#10b981','#f59e0b','#ef4444','#475569'], borderWidth: 0 }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { position:'bottom', labels:{ font:{size:11}, padding:10 } }, tooltip:{ callbacks:{ label: ctx => ` ${ctx.label}: ${ctx.parsed}%` } } }
+  }
+});
+
+// ── CHART: RADAR ──
+const radarCtx = document.getElementById('radar-chart').getContext('2d');
+const radarChart = new Chart(radarCtx, {
+  type: 'radar',
+  data: {
+    labels: ['CTR', 'CPM', 'קליקים', 'חשיפות', 'לידים', 'תקציב'],
+    datasets: [
+      { label: 'MBH', data: [0,0,0,0,0,0], borderColor:'#3b82f6', backgroundColor:'rgba(59,130,246,.12)', borderWidth:2, pointBackgroundColor:'#3b82f6' },
+      { label: 'ממוצע ענף', data: [50,50,50,50,50,50], borderColor:'#2a2a3a', backgroundColor:'rgba(100,100,100,.04)', borderWidth:1, borderDash:[4,4], pointRadius:0 }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    scales: { r: { grid:{color:'#141830'}, ticks:{display:false}, pointLabels:{font:{size:11}}, min:0, max:100 } },
+    plugins: { legend:{ labels:{font:{size:11},padding:10} } }
+  }
+});
+
+// ── CHART: VIDEO RETENTION ──
+const retLabels = ['התחלה','25% (3s)','50% (6s)','75% (9s)','100%'];
+function makeRetChart(canvasId) {
+  const ctx = document.getElementById(canvasId).getContext('2d');
+  const g = ctx.createLinearGradient(0, 0, 0, 220);
+  g.addColorStop(0, 'rgba(139,92,246,.35)');
+  g.addColorStop(1, 'rgba(139,92,246,.02)');
+  return new Chart(ctx, {
+    type: 'line',
+    data: { labels: retLabels, datasets: [{ label:'% צופים', data:[0,0,0,0,0], borderColor:'#8b5cf6', backgroundColor:g, tension:.35, fill:true, pointBackgroundColor:'#8b5cf6', pointRadius:6, pointHoverRadius:8 }] },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend:{display:false}, tooltip:{ callbacks:{ label: ctx => ` ${ctx.parsed.y.toFixed(1)}%` } } },
+      scales: {
+        x: { grid:{color:'#141830'}, ticks:{font:{size:11}} },
+        y: { grid:{color:'#141830'}, min:0, max:100, ticks:{callback: v=>v+'%', font:{size:11}} }
+      }
+    }
+  });
+}
+const retChartToday = makeRetChart('retention-chart-today');
+const retChartWeek  = makeRetChart('retention-chart-week');
+
+function updateRetChart(chart, ret, noteEl) {
+  if (!ret || !ret.p0) return;
+  const p0 = ret.p0;
+  chart.data.datasets[0].data = [
+    100,
+    +((ret.p25/p0)*100).toFixed(1),
+    +((ret.p50/p0)*100).toFixed(1),
+    +((ret.p75/p0)*100).toFixed(1),
+    +((ret.p100/p0)*100).toFixed(1),
+  ];
+  chart.update();
+  if (noteEl) noteEl.textContent = `מתוך ${p0.toLocaleString()} השמעות`;
+}
+
+// ── CHART: DAILY SPEND ──
+let dailySpendChart, dailyCtrChart, dailyImpChart;
+let _weekOffset = 0;   // 0 = latest week, negative = older weeks
+const WEEK_SIZE  = 7;
+
+function shiftWeek(dir) {
+  // dir: -1 = go back, +1 = go forward
+  const totalDays = _allDays.length;
+  const maxOffset = -Math.floor((totalDays - WEEK_SIZE) / 1);
+  _weekOffset = Math.max(Math.min(_weekOffset + dir, 0), -(totalDays - WEEK_SIZE));
+  renderSpendWindow();
+}
+
+function renderSpendWindow() {
+  if (!_allDays.length) return;
+  const total = _allDays.length;
+  // latest week = last 7 days; offset shifts backwards
+  const end   = total + _weekOffset;           // exclusive
+  const start = Math.max(0, end - WEEK_SIZE);  // inclusive
+  const window = _allDays.slice(start, end);
+
+  // Update range label
+  const rangeEl = document.getElementById('spend-range');
+  if (rangeEl && window.length) rangeEl.textContent = window[0].date_label + ' – ' + window[window.length-1].date_label;
+
+  // Disable/enable nav buttons
+  const prevBtn = document.getElementById('spend-prev');
+  const nextBtn = document.getElementById('spend-next');
+  if (prevBtn) prevBtn.style.opacity = start === 0 ? '.3' : '1';
+  if (nextBtn) nextBtn.style.opacity = end >= total ? '.3' : '1';
+
+  // Build bar colors
+  const today = new Date().toISOString().slice(0,10);
+  const bgColors = window.map(d =>
+    d.date_start === today   ? 'rgba(59,130,246,.85)' :
+    d.spend > 0              ? 'rgba(16,185,129,.7)'  : 'rgba(239,68,68,.25)');
+  const bdColors = window.map(d =>
+    d.date_start === today   ? '#3b82f6' :
+    d.spend > 0              ? '#10b981' : '#ef4444');
+
+  dailySpendChart.data.labels                           = window.map(d => d.date_label);
+  dailySpendChart.data.datasets[0].data                 = window.map(d => d.spend);
+  dailySpendChart.data.datasets[0].backgroundColor      = bgColors;
+  dailySpendChart.data.datasets[0].borderColor          = bdColors;
+  dailySpendChart.update();
+}
+
+function initWeekCharts() {
+  const spendCtx = document.getElementById('daily-spend-chart').getContext('2d');
+
+  dailySpendChart = new Chart(spendCtx, {
+    type: 'bar',
+    data: { labels: [], datasets: [{ label:'הוצאה (₪)', data:[], backgroundColor:[], borderColor:[], borderWidth:1, borderRadius:4, maxBarThickness: 40 }] },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend:{display:false}, tooltip:{ callbacks:{ label: ctx => ` ${ctx.parsed.y.toFixed(2)} ₪` } } },
+      scales: {
+        x: { grid:{color:'#141830'}, ticks:{font:{size:11}} },
+        y: { grid:{color:'#141830'}, ticks:{callback: v=>v+'₪', font:{size:11}} }
+      }
+    }
+  });
+
+  const ctrCtx = document.getElementById('daily-ctr-chart').getContext('2d');
+  const ctrGrad = ctrCtx.createLinearGradient(0, 0, 0, 280);
+  ctrGrad.addColorStop(0, 'rgba(59,130,246,.4)');
+  ctrGrad.addColorStop(1, 'rgba(59,130,246,.02)');
+
+  dailyCtrChart = new Chart(ctrCtx, {
+    type: 'line',
+    data: { labels: [], datasets: [
+      { label:'CTR %', data:[], borderColor:'#3b82f6', backgroundColor:ctrGrad, tension:.4, fill:true, pointBackgroundColor:'#3b82f6', pointRadius:5 },
+      { label:'ממוצע ענף', data:[], borderColor:'#2a2a3a', borderDash:[4,4], tension:0, fill:false, pointRadius:0 }
+    ]},
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend:{labels:{font:{size:11},padding:10}} },
+      scales: {
+        x: { grid:{color:'#141830'} },
+        y: { grid:{color:'#141830'}, ticks:{callback: v=>v+'%', font:{size:11}} }
+      }
+    }
+  });
+
+  const impCtx = document.getElementById('daily-imp-chart').getContext('2d');
+  dailyImpChart = new Chart(impCtx, {
+    type: 'bar',
+    data: { labels: [], datasets: [
+      { label:'חשיפות', data:[], backgroundColor:'rgba(59,130,246,.55)', borderColor:'#3b82f6', borderWidth:1, borderRadius:4, yAxisID:'y' },
+      { label:'קליקים', data:[], type:'line', borderColor:'#10b981', backgroundColor:'transparent', tension:.4, pointBackgroundColor:'#10b981', pointRadius:5, yAxisID:'y1' }
+    ]},
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend:{labels:{font:{size:11},padding:10}} },
+      scales: {
+        x: { grid:{color:'#141830'} },
+        y:  { grid:{color:'#141830'}, position:'right',  title:{display:true, text:'חשיפות', color:'#3b82f6', font:{size:11}} },
+        y1: { grid:{display:false},   position:'left', title:{display:true, text:'קליקים', color:'#10b981', font:{size:11}} }
+      }
+    }
+  });
+}
+initWeekCharts();
+
+// ── LOAD: TODAY ──
+function loadToday() {
+  fetch(DATA_BASE + 'marketing_today.json?t=' + Date.now()).then(r=>r.json()).then(d => {
+    _lastFetch = Date.now();
+    const spend=d.spend||0, imp=d.impressions||0, clicks=d.clicks||0;
+    const ctr=d.ctr||0, cpm=d.cpm||0, reach=d.reach||0, budPct=d.budget_used_pct||0;
+    const budget=d.budget||30;
+
+    animateNum(document.getElementById('t-spend'), spend, 2, ' ₪');
+    document.getElementById('t-spend').className = 'kpi-value green';
+    document.getElementById('t-spend-sub').textContent = `מתוך ${budget} ₪`;
+    document.getElementById('t-prog').style.width = Math.min(budPct,100) + '%';
+
+    animateNum(document.getElementById('t-imp'), imp, 0);
+    document.getElementById('t-reach').textContent = 'הגעה: ' + reach.toLocaleString();
+
+    animateNum(document.getElementById('t-clicks'), clicks, 0);
+    document.getElementById('t-ctr').textContent = 'CTR: ' + ctr.toFixed(2) + '%';
+
+    const cpmEl = document.getElementById('t-cpm');
+    animateNum(cpmEl, cpm, 2, ' ₪');
+    cpmEl.className = 'kpi-value ' + (cpm<25?'green':cpm<50?'yellow':'red');
+
+    animateNum(document.getElementById('t-leads'), d.leads||0, 0);
+    animateNum(document.getElementById('t-lpviews'), d.lp_views||0, 0);
+    animateNum(document.getElementById('t-budpct'), budPct, 1, '%');
+
+    if (d.generated_at) document.getElementById('t-updated').textContent = 'עדכון: ' + new Date(d.generated_at).toLocaleTimeString('he-IL');
+
+    // Radar
+    const ctrScore = Math.min((ctr/5)*100,100);
+    const cpmScore = cpm>0 ? Math.max(100-((cpm-15)/50)*100,0) : 0;
+    radarChart.data.datasets[0].data = [ctrScore, cpmScore, Math.min((clicks/20)*100,100), Math.min((imp/500)*100,100), 0, Math.min(budPct,100)];
+    radarChart.update();
+
+    // Ads table
+    if (d.ads) {
+      document.getElementById('ads-table').innerHTML = Object.keys(d.ads).length
+        ? Object.entries(d.ads).map(([name,a]) =>
+            `<tr><td>${name}</td><td style="color:var(--text3);font-size:11px">${a.campaign||'שיפוצים'}</td><td>${(a.spend||0).toFixed(2)} ₪</td><td>${(a.impressions||0).toLocaleString()}</td><td>${a.clicks||0}</td><td class="${(a.ctr||0)>1?'green':(a.ctr||0)>0?'yellow':''}">${(a.ctr||0).toFixed(2)}%</td><td>${a.leads!=null?a.leads:'—'}</td></tr>`
+          ).join('')
+        : '<tr><td colspan="7" class="no-data">אין נתונים</td></tr>';
+    }
+
+    updateRetChart(retChartToday, d.video_retention, document.getElementById('retention-note-today'));
+  }).catch(()=>{});
+}
+
+// ── LOAD: HOURLY SNAPSHOTS ──
+let _todaySnaps = [];
+function loadHourly() {
+  fetch(DATA_BASE + 'hourly_snapshots.json?t=' + Date.now()).then(r=>r.json()).then(d => {
+    const snaps = (d.snapshots||[]).slice();
+    _todaySnaps = snaps;
+    if (!snaps.length) return;
+
+    // Group by hour — take max cumulative value
+    const hourMap = {};
+    for (const s of snaps) {
+      const h = s.hour;
+      if (!hourMap[h] || s.impressions >= (hourMap[h].impressions||0)) hourMap[h] = s;
+    }
+
+    // Compute per-hour deltas
+    const sortedHours = Object.keys(hourMap).sort();
+    const hourlyImp = {}, hourlyClicks = {};
+    let prevImp = 0, prevClicks = 0;
+    for (const h of sortedHours) {
+      hourlyImp[h]    = Math.max(0, (hourMap[h].impressions||0) - prevImp);
+      hourlyClicks[h] = Math.max(0, (hourMap[h].clicks||0)      - prevClicks);
+      prevImp    = hourMap[h].impressions||0;
+      prevClicks = hourMap[h].clicks||0;
+    }
+
+    // Build 24-hour array
+    hourlyChart.data.datasets[0].data = Array.from({length:24}, (_,i) => hourlyImp[String(i).padStart(2,'0')] || 0);
+    hourlyChart.update();
+
+    const last = snaps[snaps.length-1];
+    document.getElementById('hourly-note').textContent = `עדכון אחרון: ${last.time} | ${snaps.length} מדידות`;
+  }).catch(()=>{});
+}
+
+// ── DAY DETAIL PAGE ──
+let _allDays = [];
+let _ddCharts = {};  // holds Chart instances for day-detail page
+
+function showDayDetail(dateStr) {
+  const day = _allDays.find(d => d.date_start === dateStr);
+  if (!day) return;
+
+  const isActive  = day.spend > 0;
+  const isToday   = dateStr === new Date().toISOString().slice(0,10);
+  const note      = day.note || '';
+
+  // Header
+  document.getElementById('day-title').textContent = day.date_label + ' / 2026';
+  const badge = document.getElementById('day-status-badge');
+  badge.textContent  = isActive ? 'קמפיין פעיל' : 'לא פעיל';
+  badge.style.cssText = `margin-right:auto;font-size:12px;padding:4px 16px;border-radius:20px;font-weight:600;
+    background:${isActive?'rgba(16,185,129,.1)':'rgba(239,68,68,.08)'};
+    border:1px solid ${isActive?'rgba(16,185,129,.3)':'rgba(239,68,68,.25)'};
+    color:${isActive?'var(--green)':'var(--red)'};`;
+
+  // KPIs
+  const spendEl = document.getElementById('dd-spend');
+  spendEl.textContent = day.spend.toFixed(2) + ' ₪';
+  spendEl.className  = 'kpi-value ' + (isActive ? 'green' : 'red');
+  document.getElementById('dd-spend-sub').textContent = `${Math.round(day.spend/30*100)}% מהתקציב`;
+  document.getElementById('dd-prog').style.width = Math.min(day.spend/30*100, 100) + '%';
+
+  document.getElementById('dd-imp').textContent    = day.impressions.toLocaleString();
+  document.getElementById('dd-imp-sub').textContent = day.impressions > 0 ? `הגעה: ${day.impressions.toLocaleString()}` : '—';
+  document.getElementById('dd-clicks').textContent  = day.clicks;
+  document.getElementById('dd-ctr-sub').textContent = 'CTR: ' + (day.impressions>0 ? day.ctr.toFixed(2)+'%' : '—');
+
+  const ctrEl = document.getElementById('dd-ctr');
+  ctrEl.textContent = day.impressions > 0 ? day.ctr.toFixed(2) + '%' : '—';
+  ctrEl.className   = 'kpi-value ' + (day.ctr > 3 ? 'green' : day.ctr > 0.8 ? 'yellow' : '');
+
+  const cpmEl = document.getElementById('dd-cpm');
+  cpmEl.textContent = day.cpm > 0 ? day.cpm.toFixed(2) + ' ₪' : '—';
+  cpmEl.className   = 'kpi-value ' + (day.cpm > 0 && day.cpm < 50 ? 'green' : day.cpm > 100 ? 'red' : 'yellow');
+
+  document.getElementById('dd-leads').textContent = day.leads;
+  document.getElementById('dd-lp').textContent    = day.lp_views;
+
+  // Note
+  const noteCard = document.getElementById('dd-note-card');
+  if (note) {
+    noteCard.style.display = 'block';
+    document.getElementById('dd-note-text').textContent = note;
+  } else {
+    noteCard.style.display = 'none';
+  }
+
+  // Destroy old charts
+  Object.values(_ddCharts).forEach(c => { try { c.destroy(); } catch(e){} });
+  _ddCharts = {};
+
+  // ── Chart 1: Spend per day — highlight selected ──
+  const ctxSpend = document.getElementById('dd-context-chart').getContext('2d');
+  _ddCharts.spend = new Chart(ctxSpend, {
+    type: 'bar',
+    data: {
+      labels: _allDays.map(d => d.date_label),
+      datasets: [{
+        label: 'הוצאה (₪)',
+        data: _allDays.map(d => d.spend),
+        backgroundColor: _allDays.map(d =>
+          d.date_start === dateStr ? 'rgba(59,130,246,.9)' :
+          d.spend > 0 ? 'rgba(16,185,129,.35)' : 'rgba(239,68,68,.2)'),
+        borderColor: _allDays.map(d =>
+          d.date_start === dateStr ? '#3b82f6' :
+          d.spend > 0 ? '#10b981' : '#ef4444'),
+        borderWidth: _allDays.map(d => d.date_start === dateStr ? 2 : 1),
+        borderRadius: 5,
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend:{display:false}, tooltip:{ callbacks:{ label: ctx => ` ${ctx.parsed.y.toFixed(2)} ₪` } } },
+      scales: {
+        x: { grid:{color:'#141830'}, ticks:{font:{size:10}} },
+        y: { grid:{color:'#141830'}, ticks:{callback:v=>v+'₪',font:{size:10}} }
+      }
+    }
+  });
+
+  // ── Chart 2: CTR per day — highlight selected ──
+  const ctxCtr = document.getElementById('dd-ctr-chart').getContext('2d');
+  _ddCharts.ctr = new Chart(ctxCtr, {
+    type: 'bar',
+    data: {
+      labels: _allDays.filter(d=>d.impressions>0).map(d=>d.date_label),
+      datasets: [
+        {
+          label: 'CTR %',
+          data: _allDays.filter(d=>d.impressions>0).map(d=>d.ctr),
+          backgroundColor: _allDays.filter(d=>d.impressions>0).map(d =>
+            d.date_start === dateStr ? 'rgba(139,92,246,.9)' : 'rgba(59,130,246,.35)'),
+          borderColor: _allDays.filter(d=>d.impressions>0).map(d =>
+            d.date_start === dateStr ? '#8b5cf6' : '#3b82f6'),
+          borderWidth: _allDays.filter(d=>d.impressions>0).map(d => d.date_start===dateStr?2:1),
+          borderRadius: 5,
+        },
+        {
+          label: 'ממוצע ענף (0.8%)',
+          data: _allDays.filter(d=>d.impressions>0).map(()=>0.8),
+          type: 'line', borderColor:'#475569', borderDash:[4,4], pointRadius:0, fill:false,
+        }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend:{labels:{font:{size:11},padding:10}}, tooltip:{ callbacks:{ label: ctx => ` ${ctx.parsed.y?.toFixed(2)}%` } } },
+      scales: {
+        x: { grid:{color:'#141830'}, ticks:{font:{size:10}} },
+        y: { grid:{color:'#141830'}, ticks:{callback:v=>v+'%',font:{size:10}} }
+      }
+    }
+  });
+
+  // ── Chart 3: Radar — this day vs industry avg ──
+  const ctxRadar = document.getElementById('dd-radar-chart').getContext('2d');
+  const ctrScore  = Math.min((day.ctr/5)*100, 100);
+  const cpmScore  = day.cpm>0 ? Math.max(100-((day.cpm-15)/80)*100, 0) : 0;
+  const impScore  = Math.min((day.impressions/600)*100, 100);
+  const clkScore  = Math.min((day.clicks/25)*100, 100);
+  const budScore  = Math.min((day.spend/30)*100, 100);
+  _ddCharts.radar = new Chart(ctxRadar, {
+    type: 'radar',
+    data: {
+      labels: ['CTR','CPM','חשיפות','קליקים','תקציב','לידים'],
+      datasets: [
+        { label: day.date_label, data:[ctrScore,cpmScore,impScore,clkScore,budScore,0],
+          borderColor:'#3b82f6', backgroundColor:'rgba(59,130,246,.12)', borderWidth:2, pointBackgroundColor:'#3b82f6' },
+        { label:'ממוצע ענף', data:[50,50,50,50,50,50],
+          borderColor:'#2a2a3a', backgroundColor:'rgba(100,100,100,.04)', borderWidth:1, borderDash:[4,4], pointRadius:0 }
+      ]
+    },
+    options: {
+      responsive:true, maintainAspectRatio:false,
+      scales:{ r:{ grid:{color:'#141830'}, ticks:{display:false}, pointLabels:{font:{size:11}}, min:0, max:100 } },
+      plugins:{ legend:{labels:{font:{size:11},padding:10}} }
+    }
+  });
+
+  // ── Chart 4: Hourly — today's snapshots only ──
+  const ctxHourly = document.getElementById('dd-hourly-chart').getContext('2d');
+  const hGrad = ctxHourly.createLinearGradient(0,0,0,220);
+  hGrad.addColorStop(0,'rgba(59,130,246,.5)');
+  hGrad.addColorStop(1,'rgba(59,130,246,.05)');
+  let hourlyData = Array(24).fill(0);
+  let hourlyNote = 'נתוני שעה זמינים רק להיום';
+
+  if (isToday) {
+    // use stored snapshots
+    const snaps = _todaySnaps || [];
+    if (snaps.length) {
+      const hourMap = {};
+      for (const s of snaps) {
+        const h = s.hour;
+        if (!hourMap[h] || s.impressions >= (hourMap[h].impressions||0)) hourMap[h] = s;
+      }
+      const sortedH = Object.keys(hourMap).sort();
+      let prev = 0;
+      for (const h of sortedH) {
+        hourlyData[parseInt(h)] = Math.max(0, (hourMap[h].impressions||0) - prev);
+        prev = hourMap[h].impressions||0;
+      }
+      hourlyNote = `${snaps.length} מדידות — עדכון אחרון: ${snaps[snaps.length-1].time}`;
+    }
+    document.getElementById('dd-hourly-badge').textContent = 'היום';
+  } else {
+    document.getElementById('dd-hourly-badge').textContent = 'לא זמין לימים קודמים';
+    hourlyNote = 'נתוני שעה נשמרים רק מהיום והלאה';
+  }
+
+  document.getElementById('dd-hourly-note').textContent = hourlyNote;
+  _ddCharts.hourly = new Chart(ctxHourly, {
+    type: 'bar',
+    data: {
+      labels: Array.from({length:24},(_,i)=>String(i).padStart(2,'0')+':00'),
+      datasets: [{ label:'חשיפות', data:hourlyData, backgroundColor:hGrad, borderColor:'#3b82f6', borderWidth:1, borderRadius:4 }]
+    },
+    options: {
+      responsive:true, maintainAspectRatio:false,
+      plugins:{legend:{display:false}},
+      scales:{
+        x:{ grid:{color:'#141830'}, ticks:{font:{size:9},maxRotation:0} },
+        y:{ grid:{color:'#141830'}, ticks:{font:{size:10},stepSize:1} }
+      }
+    }
+  });
+
+  // Navigate to the day page
+  showPage('day');
+}
+
+// ── LOAD: WEEKLY ──
+function loadWeek() {
+  fetch(DATA_BASE + 'marketing_weekly.json?t=' + Date.now()).then(r=>r.json()).then(d => {
+    const t = d.totals || {};
+    const days = d.days || [];
+    _allDays = days;
+    const activeDays = t.active_days || 0;
+
+    animateNum(document.getElementById('w-spend'), t.spend||0, 2, ' ₪');
+    animateNum(document.getElementById('w-imp'),   t.impressions||0, 0);
+    animateNum(document.getElementById('w-leads'), t.leads||0, 0);
+    animateNum(document.getElementById('w-lpviews'), t.lp_views||0, 0);
+
+    document.getElementById('w-spend-sub').textContent = activeDays + ' ימים פעילים';
+    document.getElementById('w-imp-sub').textContent   = activeDays > 0 ? `ממוצע ${Math.round((t.impressions||0)/activeDays)}/יום` : '';
+
+    // Avg CTR from active days
+    const activeDaysList = days.filter(d => d.impressions > 0);
+    const avgCtr = activeDaysList.length
+      ? activeDaysList.reduce((s,d) => s + d.ctr, 0) / activeDaysList.length
+      : 0;
+    document.getElementById('w-ctr').textContent = avgCtr.toFixed(2) + '%';
+
+    // Update week-updated badge
+    if (d.generated_at) document.getElementById('week-updated').textContent = 'עדכון: ' + new Date(d.generated_at).toLocaleTimeString('he-IL');
+
+    // Spend chart — rendered via window (latest 7 days by default)
+    _weekOffset = 0;
+    renderSpendWindow();
+
+    // CTR chart (only days with impressions for line)
+    const ctrDays = days.filter(d => d.impressions > 0);
+    dailyCtrChart.data.labels = ctrDays.map(d => d.date_label);
+    dailyCtrChart.data.datasets[0].data = ctrDays.map(d => d.ctr);
+    dailyCtrChart.data.datasets[1].data = ctrDays.map(() => 0.8);
+    dailyCtrChart.update();
+
+    // Impressions chart
+    dailyImpChart.data.labels = days.map(d => d.date_label);
+    dailyImpChart.data.datasets[0].data = days.map(d => d.impressions);
+    dailyImpChart.data.datasets[1].data = days.map(d => d.clicks);
+    dailyImpChart.update();
+
+    // Daily table
+    document.getElementById('daily-table').innerHTML = days.map(day => {
+      const spendColor = day.spend > 0 ? 'var(--green)' : 'var(--red)';
+      const ctrCls = day.ctr > 3 ? 'green' : day.ctr > 0.8 ? 'yellow' : '';
+      const note = day.note || (day.spend > 0 ? '' : 'לא פעיל');
+      const noteColor = day.spend > 0 ? 'var(--text3)' : 'var(--red)';
+      return `<tr>
+        <td onclick="showDayDetail('${day.date_start}')" style="cursor:pointer;color:var(--blue);font-weight:600;text-decoration:underline;text-decoration-style:dotted;text-underline-offset:3px;">${day.date_label}</td>
+        <td style="color:${spendColor};font-family:var(--mono)">${day.spend.toFixed(2)} ₪</td>
+        <td>${day.impressions.toLocaleString()}</td>
+        <td>${day.clicks}</td>
+        <td class="${ctrCls}">${day.impressions > 0 ? day.ctr.toFixed(2)+'%' : '—'}</td>
+        <td>${day.leads}</td>
+        <td style="color:${noteColor};font-size:12px;">${note}</td>
+      </tr>`;
+    }).join('') || '<tr><td colspan="7" class="no-data">אין נתונים</td></tr>';
+
+  }).catch(() => {
+    // marketing_weekly.json doesn't exist yet — show placeholder
+    document.getElementById('daily-table').innerHTML =
+      '<tr><td colspan="7" class="no-data">נתוני שבוע יתמלאו בריצה הבאה של הסוכן (כל 30 דקות)</td></tr>';
+  });
+}
+
+// ── LOAD: MARKETING ANALYSIS ──
+function loadMarketing() {
+  fetch(DATA_BASE + 'marketing_latest.json?t=' + Date.now()).then(r=>r.json()).then(d => {
+    document.getElementById('analysis-text').textContent = d.analysis||'—';
+    document.getElementById('agent-analysis').textContent = d.analysis||'—';
+    if (d.generated_at) document.getElementById('ma-last').textContent = 'עדכון: ' + new Date(d.generated_at).toLocaleTimeString('he-IL');
+
+    const probs = d.problems||[];
+    document.getElementById('problems-list').innerHTML = probs.length
+      ? probs.map(p=>`<div class="insight-tag problem">⚠️ ${p}</div>`).join('')
+      : '<div class="no-data">אין בעיות</div>';
+
+    const acts = d.actions_taken||[];
+    document.getElementById('actions-list').innerHTML = acts.length
+      ? acts.map(a=>`<div class="insight-tag action">✅ ${a}</div>`).join('')
+      : '<div class="no-data">אין פעולות</div>';
+
+    updateRetChart(retChartWeek, (d.historical||{}).video_retention || d.video_retention, null);
+  }).catch(()=>{});
+}
+
+// ── LOAD: RESEARCH ──
+function loadResearch() {
+  fetch(DATA_BASE + 'research_latest.json?t=' + Date.now()).then(r=>r.json()).then(d => {
+    document.getElementById('research-topic-badge').textContent = d.topic||'—';
+    document.getElementById('agent-research').textContent = d.findings||'—';
+    if (d.generated_at) document.getElementById('ra-last').textContent = 'עדכון: ' + new Date(d.generated_at).toLocaleTimeString('he-IL');
+  }).catch(()=>{});
+
+  fetch(DATA_BASE + 'research_history.json?t=' + Date.now()).then(r=>r.json()).then(arr => {
+    document.getElementById('history-count').textContent = arr.length + ' מחקרים';
+    document.getElementById('research-history-list').innerHTML = arr.slice(0,6).map(e =>
+      `<div class="stat-row">
+        <div class="stat-label">${e.date} — <span style="color:var(--purple)">${e.topic}</span></div>
+        <div class="stat-value" style="font-size:11px;color:var(--text3);">${new Date(e.generated_at).toLocaleTimeString('he-IL')}</div>
+      </div>`
+    ).join('');
+  }).catch(()=>{});
+}
+
+// ── LOAD: LIVE LOG ──
+function loadLiveLog() {
+  fetch(DATA_BASE + 'live.json?t=' + Date.now()).then(r=>r.json()).then(entries => {
+    document.getElementById('log-count').textContent = entries.length + ' רשומות';
+    document.getElementById('live-log').innerHTML = entries.slice(0,40).map(e => {
+      const c = e.agent.includes('Marketing') ? 'var(--blue)' : e.agent.includes('Researcher') ? 'var(--purple)' : 'var(--green)';
+      return `<div class="log-entry"><span class="log-time">${e.time}</span><span class="log-agent" style="color:${c}">${e.agent}</span><span class="log-msg">${e.msg}</span></div>`;
+    }).join('');
+  }).catch(()=>{});
+}
+
+// ── LOAD: POSTER ──
+function loadPoster() {
+  fetch(DATA_BASE + 'poster_status.json?t=' + Date.now()).then(r=>r.json()).then(d => {
+    const t = d.today||{}, w = d.week||{};
+    const okEl = document.getElementById('p-ok-today');
+    animateNum(okEl, t.ok||0, 0);
+    okEl.className = 'kpi-value ' + ((t.ok||0)>0?'green':'neutral');
+    animateNum(document.getElementById('p-fail-today'), t.failed||0, 0);
+    document.getElementById('p-max-today').textContent = `מתוך ${t.max||20}`;
+    document.getElementById('p-prog').style.width = (t.pct||0) + '%';
+    animateNum(document.getElementById('p-ok-week'), w.ok||0, 0);
+    document.getElementById('p-fail-week').textContent = `נכשלו: ${w.failed||0}`;
+    document.getElementById('p-next').textContent = d.next_run||'—';
+    document.getElementById('p-ip').textContent   = d.last_ip||'—';
+    document.getElementById('p-offdays').textContent = 'מנוחה: ' + (d.off_days||[]).join(', ');
+
+    const agEl = document.getElementById('p-agent-status');
+    agEl.textContent = 'LaunchAgent: ' + (d.agent_active ? '✓ פעיל' : '✗ לא פעיל');
+    agEl.style.color = d.agent_active ? 'var(--green)' : 'var(--red)';
+
+    const tg = d.top_groups||[];
+    document.getElementById('p-top-groups').innerHTML = tg.length
+      ? tg.map((g,i)=>`<div class="stat-row"><div class="stat-label">${i+1}. ${g.name}</div><div class="stat-value blue">${g.count} פוסטים</div></div>`).join('')
+      : '<div class="no-data">אין נתונים עדיין</div>';
+
+    const posts = t.posts||[];
+    document.getElementById('p-today-count').textContent = posts.length + ' פוסטים';
+    document.getElementById('p-posts-table').innerHTML = posts.length
+      ? posts.map(p => {
+          const col     = p.status==='ok' ? 'var(--green)' : p.status==='failed' ? 'var(--red)' : 'var(--text3)';
+          const icon    = p.status==='ok' ? '✓' : p.status==='failed' ? '✗' : '—';
+          const link    = p.url ? `<a href="${p.url}" target="_blank" style="color:var(--blue);text-decoration:none;">${p.name}</a>` : p.name;
+          const imgTag  = p.has_image === true ? '📷 עם תמונה' : p.has_image === false ? '📝 ללא תמונה' : (p.reason||'');
+          return `<tr><td>${link}</td><td style="color:var(--text3)">${p.time}</td><td style="color:${col};font-weight:600">${icon} ${p.status}</td><td style="color:var(--text3);font-size:12px">${imgTag}</td></tr>`;
+        }).join('')
+      : '<tr><td colspan="4" class="no-data">אין פוסטים היום עדיין</td></tr>';
+  }).catch(()=>{
+    document.getElementById('p-posts-table').innerHTML = '<tr><td colspan="4" class="no-data">אין נתונים</td></tr>';
+  });
+}
+
+// ── RUN POSTER ──
+async function runPoster() {
+  const btn=document.getElementById('run-btn'), st=document.getElementById('run-status');
+  btn.disabled=true; btn.textContent='⏳ מפעיל...'; st.textContent='';
+  try {
+    await fetch('http://localhost:8765/api/run-poster', {method:'POST'});
+    btn.textContent='✓ הופעל'; btn.style.background='linear-gradient(135deg,var(--green),#059669)';
+    st.textContent='הפוסטר רץ ברקע'; st.style.color='var(--green)';
+    setTimeout(loadPoster, 8000);
+  } catch(e) {
+    btn.textContent='✗ שגיאה'; btn.style.background='var(--red)';
+    st.textContent='הסרוור לא מגיב'; st.style.color='var(--red)';
+  }
+  setTimeout(() => { btn.disabled=false; btn.textContent='▶ הרץ עכשיו'; btn.style.background=''; }, 15000);
+}
+
+// ── GROUPS ──
+let _allGroups = [];
+function loadGroups() {
+  fetch('http://localhost:8765/api/groups?t=' + Date.now())
+    .then(r=>r.json()).then(d => {
+      _allGroups = d.groups||[];
+      renderGroupList('');
+      updateGroupCount();
+    }).catch(()=>{
+      document.getElementById('g-list').innerHTML = '<div class="no-data">groups.json לא נמצא</div>';
+      document.getElementById('g-sel-count').textContent = '0 / 0';
+    });
+}
+function renderGroupList(filter) {
+  const q = filter.toLowerCase().trim();
+  const vis = q ? _allGroups.filter(g=>g.name.toLowerCase().includes(q)||g.id.includes(q)) : _allGroups;
+  const listEl = document.getElementById('g-list');
+  document.getElementById('g-total-count').textContent = vis.length + ' קבוצות';
+  if (!vis.length) { listEl.innerHTML='<div class="no-data">לא נמצאו</div>'; return; }
+  listEl.innerHTML = vis.map(g=>`
+    <div class="group-row${g.selected?' selected':''}" onclick="toggleGroup('${g.id}')">
+      <div class="group-row-info">
+        <div class="group-row-name">${g.name}</div>
+        <div class="group-row-url">${g.url}</div>
+      </div>
+      <input type="checkbox" class="group-cb" ${g.selected?'checked':''} onclick="event.stopPropagation();toggleGroup('${g.id}')">
+    </div>`).join('');
+}
+function filterGroupList(q) { renderGroupList(q); }
+function toggleGroup(id) {
+  const g=_allGroups.find(x=>x.id===id); if(!g) return;
+  g.selected=!g.selected;
+  renderGroupList(document.getElementById('g-search').value); updateGroupCount();
+}
+function toggleAllGroups(sel) {
+  const q=document.getElementById('g-search').value.toLowerCase().trim();
+  _allGroups.forEach(g=>{ if(!q||g.name.toLowerCase().includes(q)||g.id.includes(q)) g.selected=sel; });
+  renderGroupList(document.getElementById('g-search').value); updateGroupCount();
+}
+function updateGroupCount() {
+  const sel=_allGroups.filter(g=>g.selected).length;
+  document.getElementById('g-sel-count').textContent=sel+' / '+_allGroups.length+' נבחרו';
+}
+async function saveGroupSelection() {
+  const btn=document.getElementById('g-save-btn'), st=document.getElementById('g-save-status');
+  const ids=_allGroups.filter(g=>g.selected).map(g=>g.id);
+  btn.disabled=true; btn.textContent='⏳ שומר...';
+  try {
+    const r=await fetch('http://localhost:8765/api/save-groups',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({selected_ids:ids})});
+    const d=await r.json();
+    btn.textContent='✓ נשמר'; btn.style.background='linear-gradient(135deg,var(--green),#059669)';
+    st.textContent=d.msg||'נשמר'; st.style.color='var(--green)';
+  } catch(e) {
+    btn.textContent='✗ שגיאה'; btn.style.background='var(--red)';
+    st.textContent='שגיאה'; st.style.color='var(--red)';
+  }
+  setTimeout(()=>{ btn.disabled=false; btn.textContent='💾 שמור בחירה'; btn.style.background=''; st.textContent=''; }, 3000);
+}
+
+// ── POST CONTENT ──
+let selectedMediaFile=null;
+let savedImagePath=null;
+function handleMediaSelect(input) {
+  if (input.files[0]) { selectedMediaFile=input.files[0]; document.getElementById('media-preview').textContent='📎 '+selectedMediaFile.name; }
+}
+function handleMediaDrop(e) {
+  e.preventDefault();
+  const file=e.dataTransfer.files[0];
+  if (file) { selectedMediaFile=file; document.getElementById('media-preview').textContent='📎 '+file.name; }
+}
+async function savePost() {
+  const text=document.getElementById('post-text').value.trim();
+  const st=document.getElementById('post-save-status');
+  if (!text) { st.textContent='נא להכניס טקסט'; st.style.color='var(--red)'; return; }
+  st.textContent='שומר...'; st.style.color='var(--text3)';
+  let body, headers={};
+  if (selectedMediaFile) {
+    const fd=new FormData(); fd.append('text',text); fd.append('media',selectedMediaFile); body=fd;
+  } else {
+    const payload={text};
+    if (savedImagePath) payload.image=savedImagePath;
+    body=JSON.stringify(payload); headers['Content-Type']='application/json';
+  }
+  const r=await fetch('http://localhost:8765/api/save-post',{method:'POST',headers,body});
+  if (r.ok) { st.textContent='✅ נשמר בהצלחה!'; st.style.color='var(--green)'; }
+  else { st.textContent='❌ שגיאה בשמירה'; st.style.color='var(--red)'; }
+}
+async function loadPostContent() {
+  try {
+    const r=await fetch('http://localhost:8765/api/post-content');
+    const d=await r.json();
+    if (d.text) document.getElementById('post-text').value=d.text;
+    if (d.image) { savedImagePath=d.image; document.getElementById('media-preview').textContent='📎 '+d.image.split('/').pop(); }
+    const pb=document.getElementById('pause-btn'), banner=document.getElementById('poster-status-banner');
+    if (d.paused) {
+      pb.textContent='▶ הפעל פרסום'; pb.style.background='var(--green)'; pb.style.color='#fff';
+      banner.style.cssText='display:block;padding:8px 14px;border-radius:8px;font-size:13px;margin-bottom:14px;text-align:center;font-weight:600;background:rgba(239,68,68,.07);border:1px solid rgba(239,68,68,.3);color:var(--red)';
+      banner.textContent='⏸ הפרסום מושהה — שמור פוסט ולחץ "הפעל פרסום" כדי להתחיל';
+    } else {
+      pb.textContent='⏸ השהה פרסום'; pb.style.background='var(--card2)'; pb.style.color='var(--text2)';
+      banner.style.display='none';
+    }
+  } catch(e) {}
+}
+async function togglePause() {
+  const pb=document.getElementById('pause-btn');
+  const isPaused=pb.textContent.includes('הפעל');
+  if (isPaused) await fetch('http://localhost:8765/api/run-poster',{method:'POST'});
+  else await fetch('http://localhost:8765/api/pause-poster',{method:'POST'});
+  setTimeout(loadPostContent, 500);
+}
+
+// ── LOAD ALL ──
+function loadAll() {
+  loadToday(); loadHourly(); loadMarketing(); loadResearch();
+  loadLiveLog(); loadPoster(); loadWeek(); loadGroups(); loadPostContent();
+}
+
+loadAll();
+setInterval(loadToday,     5000);
+setInterval(loadHourly,    5000);
+setInterval(loadWeek,     30000);
+setInterval(loadLiveLog,   5000);
+setInterval(loadMarketing, 5000);
+setInterval(loadResearch, 30000);
+setInterval(loadPoster,    5000);
+</script>
+</body>
+</html>

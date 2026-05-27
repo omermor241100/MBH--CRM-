@@ -1,0 +1,166 @@
+{
+  "generated_at": "2026-05-27T15:45:02.158226",
+  "today": {
+    "ok": 14,
+    "failed": 0,
+    "max": 25,
+    "pct": 56,
+    "posts": [
+      {
+        "name": "שיפוצים",
+        "url": "https://www.facebook.com/groups/1525708264342462/",
+        "status": "ok",
+        "reason": null,
+        "has_image": false,
+        "time": "15:45"
+      },
+      {
+        "name": "תל עדשים אחוזת ברק רמת ישי נהלל תמרת כפר החורש אחוזת ברק, גניגר שריד",
+        "url": "https://www.facebook.com/groups/432049816885382/",
+        "status": "ok",
+        "reason": null,
+        "has_image": false,
+        "time": "15:30"
+      },
+      {
+        "name": "רמת ישי עמק יזרעאל והסביבה תושבים עסקים ומה שבניהם",
+        "url": "https://www.facebook.com/groups/1442577196032361/",
+        "status": "ok",
+        "reason": null,
+        "has_image": false,
+        "time": "15:15"
+      },
+      {
+        "name": "קהילת טבעון והסביבה",
+        "url": "https://www.facebook.com/groups/1670996823186391/",
+        "status": "ok",
+        "reason": null,
+        "has_image": false,
+        "time": "15:01"
+      },
+      {
+        "name": "טבעון רמת ישי יוקנעם עמק יזרעאל גליל תחתון והסביבה",
+        "url": "https://www.facebook.com/groups/353742521365995/",
+        "status": "ok",
+        "reason": null,
+        "has_image": false,
+        "time": "14:47"
+      },
+      {
+        "name": "טבעון רמת ישי יוקנעם עמק יזרעאל גליל תחתון והסביבה",
+        "url": "https://www.facebook.com/groups/353742521365995/",
+        "status": "ok",
+        "reason": null,
+        "has_image": false,
+        "time": "14:44"
+      },
+      {
+        "name": "דרושים קבלני משנה",
+        "url": "https://www.facebook.com/groups/1243893529012869/",
+        "status": "ok",
+        "reason": null,
+        "has_image": false,
+        "time": "14:32"
+      },
+      {
+        "name": "דרושים קבלני משנה",
+        "url": "https://www.facebook.com/groups/1243893529012869/",
+        "status": "ok",
+        "reason": null,
+        "has_image": false,
+        "time": "14:30"
+      },
+      {
+        "name": "קבלנים שיפוצניקים ויזמים!",
+        "url": "https://www.facebook.com/groups/954678227994700/",
+        "status": "ok",
+        "reason": null,
+        "has_image": false,
+        "time": "14:17"
+      },
+      {
+        "name": "עמק יזרעאל והסביבה",
+        "url": "https://www.facebook.com/groups/850888673643160/",
+        "status": "ok",
+        "reason": null,
+        "has_image": false,
+        "time": "14:05"
+      },
+      {
+        "name": "קבלני בניה שיפוצים מומלצים",
+        "url": "https://www.facebook.com/groups/234267067129792/",
+        "status": "ok",
+        "reason": null,
+        "has_image": false,
+        "time": "10:17"
+      },
+      {
+        "name": "עפולה וצפון פרסומים ללא הגבלה 70,000 חברים",
+        "url": "https://www.facebook.com/groups/3297358863690925/",
+        "status": "ok",
+        "reason": null,
+        "has_image": false,
+        "time": "10:02"
+      },
+      {
+        "name": "קהילת קרית טבעון",
+        "url": "https://www.facebook.com/groups/3636210516405147/",
+        "status": "ok",
+        "reason": null,
+        "has_image": false,
+        "time": "09:14"
+      },
+      {
+        "name": "עמק יזרעאל- קבוצת התושבים",
+        "url": "https://www.facebook.com/groups/1694955840810846/",
+        "status": "ok",
+        "reason": null,
+        "has_image": false,
+        "time": "08:57"
+      }
+    ]
+  },
+  "week": {
+    "ok": 45,
+    "failed": 15
+  },
+  "top_groups": [
+    {
+      "name": "תל עדשים אחוזת ברק רמת ישי נהלל תמרת כפר החורש אחוזת ברק, גניגר שריד",
+      "count": 5
+    },
+    {
+      "name": "טבעון רמת ישי יוקנעם עמק יזרעאל גליל תחתון והסביבה",
+      "count": 5
+    },
+    {
+      "name": "דרושים קבלני משנה",
+      "count": 5
+    },
+    {
+      "name": "קהילת קרית טבעון",
+      "count": 4
+    },
+    {
+      "name": "קהילת טבעון והסביבה",
+      "count": 4
+    },
+    {
+      "name": "עמק יזרעאל והסביבה",
+      "count": 4
+    },
+    {
+      "name": "שיפוצים",
+      "count": 3
+    },
+    {
+      "name": "רמת ישי עמק יזרעאל והסביבה תושבים עסקים ומה שבניהם",
+      "count": 3
+    }
+  ],
+  "next_run": "היום 16:00",
+  "agent_active": true,
+  "last_ip": "5.29.10.113",
+  "off_days": [],
+  "session_limit": 4
+}
