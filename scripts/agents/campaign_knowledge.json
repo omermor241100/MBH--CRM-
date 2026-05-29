@@ -104,11 +104,11 @@
     },
     "2026-05-30": {
       "spend": 0.01,
-      "impressions": 2,
+      "impressions": 3,
       "clicks": 0,
       "ctr": 0.0,
       "leads": 0,
-      "generated_at": "2026-05-30T00:39:45.105953"
+      "generated_at": "2026-05-30T00:45:03.371555"
     }
   },
   "rules": {
