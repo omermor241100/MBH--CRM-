@@ -1,6 +1,6 @@
 {
   "date": "30/05/2026",
-  "generated_at": "2026-05-30T03:43:01.251744",
+  "generated_at": "2026-05-30T03:48:19.629514",
   "spend": 0.02,
   "impressions": 4,
   "clicks": 0,
@@ -20,8 +20,8 @@
   },
   "ads": {
     "לידים - עותק - עותק": {
-      "spend": 0.02,
-      "impressions": 4,
+      "spend": 0.0,
+      "impressions": 0,
       "clicks": 0,
       "ctr": 0.0,
       "leads": 0,
