@@ -1,14 +1,14 @@
 {
-  "updated_at": "2026-05-30T15:48:36.175720",
+  "updated_at": "2026-05-30T15:53:57.469553",
   "current_problems": [
     "CTR נמוך — המודעות לא מספיק מושכות"
   ],
   "stats_summary": {
-    "spend": 0.02,
+    "spend": 0.03,
     "clicks": 0,
     "leads": 0,
     "ctr": 0.0,
-    "cpm": 5.0,
+    "cpm": 6.0,
     "lp_views": 0
   }
 }
