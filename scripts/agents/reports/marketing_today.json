@@ -1,16 +1,16 @@
 {
   "date": "30/05/2026",
-  "generated_at": "2026-05-30T17:53:27.850656",
-  "spend": 9.58,
-  "impressions": 531,
+  "generated_at": "2026-05-30T17:58:46.505253",
+  "spend": 9.7,
+  "impressions": 550,
   "clicks": 4,
-  "reach": 436,
-  "ctr": 0.753296,
-  "cpm": 18.041431,
+  "reach": 480,
+  "ctr": 0.727273,
+  "cpm": 17.636364,
   "leads": 0,
   "lp_views": 0,
   "budget": 50,
-  "budget_used_pct": 19.2,
+  "budget_used_pct": 19.4,
   "video_retention": {
     "p0": 1,
     "p25": 0,
@@ -20,10 +20,10 @@
   },
   "ads": {
     "לידים - עותק - עותק": {
-      "spend": 9.39,
-      "impressions": 518,
+      "spend": 9.7,
+      "impressions": 550,
       "clicks": 4,
-      "ctr": 0.772201,
+      "ctr": 0.727273,
       "leads": 0,
       "campaign": "לידים"
     }
