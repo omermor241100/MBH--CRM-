@@ -119,12 +119,12 @@
       "generated_at": "2026-05-31T23:59:45.989040"
     },
     "2026-06-01": {
-      "spend": 38.29,
-      "impressions": 2070,
-      "clicks": 28,
-      "ctr": 1.352657,
+      "spend": 38.79,
+      "impressions": 2098,
+      "clicks": 29,
+      "ctr": 1.382269,
       "leads": 0,
-      "generated_at": "2026-06-01T21:56:53.006113"
+      "generated_at": "2026-06-01T22:02:13.876083"
     }
   },
   "rules": {
