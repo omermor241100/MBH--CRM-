@@ -1,12 +1,12 @@
 {
-  "updated_at": "2026-06-01T17:37:34.472827",
+  "updated_at": "2026-06-01T17:43:11.564486",
   "current_problems": [],
   "stats_summary": {
-    "spend": 2.52,
+    "spend": 2.65,
     "clicks": 2,
     "leads": 0,
-    "ctr": 1.092896,
-    "cpm": 13.770492,
+    "ctr": 1.06383,
+    "cpm": 14.095745,
     "lp_views": 0
   }
 }
