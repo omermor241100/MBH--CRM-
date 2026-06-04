@@ -1,10 +1,10 @@
 {
   "date": "04/06/2026",
-  "generated_at": "2026-06-04T19:18:54.477065",
+  "generated_at": "2026-06-04T19:24:14.959937",
   "spend": 18.94,
   "impressions": 609,
   "clicks": 8,
-  "reach": 490,
+  "reach": 500,
   "ctr": 1.313629,
   "cpm": 31.100164,
   "leads": 1,
@@ -20,10 +20,10 @@
   },
   "ads": {
     "לידים - עותק - עותק": {
-      "spend": 18.94,
-      "impressions": 609,
+      "spend": 19.09,
+      "impressions": 620,
       "clicks": 8,
-      "ctr": 1.313629,
+      "ctr": 1.290323,
       "leads": 1,
       "campaign": "לידים"
     }
