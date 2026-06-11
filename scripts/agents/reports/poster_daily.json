@@ -1,9 +1,11 @@
 {
   "date": "11/06/2026",
   "posts_ok": 0,
-  "posts_failed": 0,
+  "posts_failed": 1,
   "max_per_day": 72,
   "groups_ok": [],
-  "groups_failed": [],
-  "last_updated": "2026-06-11T18:53:53.771699"
+  "groups_failed": [
+    "מגדל העמק החדשה - בעלי מקצוע מומלצים"
+  ],
+  "last_updated": "2026-06-11T18:59:47.540758"
 }
