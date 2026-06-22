@@ -1,6 +1,6 @@
 {
   "date": "22/06/2026",
-  "generated_at": "2026-06-22T16:45:40.739088",
+  "generated_at": "2026-06-22T16:51:01.440333",
   "stats": {
     "spend": 0.0,
     "impressions": 0,
@@ -25,7 +25,7 @@
     "CTR נמוך — המודעות לא מספיק מושכות"
   ],
   "actions_taken": [],
-  "analysis": "Failed to authenticate. API Error: 401 Invalid authentication credentials",
+  "analysis": "Not logged in · Please run /login",
   "video_retention": {
     "p0": 0,
     "p25": 0,
