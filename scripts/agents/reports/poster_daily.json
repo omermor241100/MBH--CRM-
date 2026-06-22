@@ -1,9 +1,11 @@
 {
-  "date": "20/06/2026",
+  "date": "22/06/2026",
   "posts_ok": 0,
-  "posts_failed": 0,
+  "posts_failed": 1,
   "max_per_day": 72,
   "groups_ok": [],
-  "groups_failed": [],
-  "last_updated": "2026-06-20T18:29:39.865868"
+  "groups_failed": [
+    "רובע יזרעאל ותושבי עפולה"
+  ],
+  "last_updated": "2026-06-22T16:06:21.510660"
 }
