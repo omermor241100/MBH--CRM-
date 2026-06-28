@@ -1,9 +1,11 @@
 {
   "date": "28/06/2026",
-  "posts_ok": 0,
+  "posts_ok": 1,
   "posts_failed": 0,
   "max_per_day": 72,
-  "groups_ok": [],
+  "groups_ok": [
+    "קהילת הדירות בטבעון | רמת ישי | יקנעם | כפר יהושוע והסביבה"
+  ],
   "groups_failed": [],
-  "last_updated": "2026-06-28T20:49:43.655460"
+  "last_updated": "2026-06-28T21:50:13.433441"
 }
