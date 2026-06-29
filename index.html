@@ -392,6 +392,10 @@ fbq('track','PageView');
   .submit-btn:hover::before { transform: scaleX(1); transform-origin: left; }
   .submit-btn:hover { border-color: var(--white); }
   .submit-btn span { position: relative; z-index: 1; }
+  .privacy-check { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; cursor: pointer; }
+  .privacy-check input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--gold); cursor: pointer; flex-shrink: 0; }
+  .privacy-check span { font-size: 0.88em; color: rgba(255,255,255,0.7); }
+  .privacy-check a { color: rgba(201,168,76,0.9); text-decoration: underline; }
 
   .success-msg {
     display: none; text-align: center; padding: 24px;
@@ -822,6 +826,10 @@ fbq('track','PageView');
             <textarea id="work" placeholder="לדוגמה: מטבח, חדרי שינה, כל הדירה..."></textarea>
           </div>
         </div>
+        <label class="privacy-check">
+          <input type="checkbox" id="privacyConsent">
+          <span>קראתי והסכמתי ל<a href="/privacy.html" target="_blank">מדיניות הפרטיות</a></span>
+        </label>
         <button class="submit-btn" onclick="handleSubmit()"><span>שלח — נחזור אליך תוך שעה</span></button>
 
         <div class="form-or">או</div>
@@ -943,6 +951,10 @@ function handleSubmit() {
   const work  = document.getElementById('work').value.trim();
   if (!name || !phone || !work) {
     alert('אנא מלאו שם, טלפון ותיאור עבודה');
+    return;
+  }
+  if (!document.getElementById('privacyConsent').checked) {
+    alert('יש לאשר את מדיניות הפרטיות לפני השליחה');
     return;
   }
   if (typeof fbq !== 'undefined') fbq('track', 'Lead');
