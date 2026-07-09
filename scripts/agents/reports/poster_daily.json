@@ -1,11 +1,9 @@
 {
-  "date": "09/07/2026",
+  "date": "10/07/2026",
   "posts_ok": 0,
-  "posts_failed": 1,
+  "posts_failed": 0,
   "max_per_day": 72,
   "groups_ok": [],
-  "groups_failed": [
-    "דרושים לטבעון, רמת ישי, יקנעם, עפולה, מגדל העמק"
-  ],
-  "last_updated": "2026-07-09T20:49:07.337743"
+  "groups_failed": [],
+  "last_updated": "2026-07-10T01:34:02.571826"
 }
