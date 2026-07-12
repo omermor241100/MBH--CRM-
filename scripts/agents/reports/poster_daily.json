@@ -1,11 +1,11 @@
 {
-  "date": "11/07/2026",
-  "posts_ok": 1,
-  "posts_failed": 0,
+  "date": "12/07/2026",
+  "posts_ok": 0,
+  "posts_failed": 1,
   "max_per_day": 72,
-  "groups_ok": [
-    "קרית טבעון והסביבה"
+  "groups_ok": [],
+  "groups_failed": [
+    "עפולה, נוף הגליל, מגדל העמק 🏘⭐"
   ],
-  "groups_failed": [],
-  "last_updated": "2026-07-11T20:37:23.750954"
+  "last_updated": "2026-07-12T05:51:45.413868"
 }
