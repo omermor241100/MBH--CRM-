@@ -1,9 +1,12 @@
 {
-  "date": "14/07/2026",
+  "date": "16/07/2026",
   "posts_ok": 0,
-  "posts_failed": 0,
+  "posts_failed": 2,
   "max_per_day": 72,
   "groups_ok": [],
-  "groups_failed": [],
-  "last_updated": "2026-07-14T21:52:00.584944"
+  "groups_failed": [
+    "שכונת שריד מגדל העמק",
+    "קהילת קרית טבעון"
+  ],
+  "last_updated": "2026-07-16T17:10:53.126835"
 }
