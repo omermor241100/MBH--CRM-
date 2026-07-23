@@ -1,9 +1,12 @@
 {
   "date": "23/07/2026",
   "posts_ok": 0,
-  "posts_failed": 0,
+  "posts_failed": 2,
   "max_per_day": 72,
   "groups_ok": [],
-  "groups_failed": [],
-  "last_updated": "2026-07-23T19:04:44.397252"
+  "groups_failed": [
+    "מגדל העמק מדברים הכל מהכל",
+    "עמקים"
+  ],
+  "last_updated": "2026-07-23T21:48:47.372121"
 }
