@@ -1,9 +1,9 @@
 {
   "date": "02/08/2026",
-  "generated_at": "2026-08-02T19:59:55.619023",
+  "generated_at": "2026-08-02T21:00:17.546962",
   "topic": "CTR נמוך — המודעות לא מספיק מושכות",
   "based_on_problems": [
     "CTR נמוך — המודעות לא מספיק מושכות"
   ],
-  "findings": "Not logged in · Please run /login"
+  "findings": "Failed to authenticate: OAuth session expired and could not be refreshed"
 }
