@@ -1,6 +1,6 @@
 {
   "date": "02/08/2026",
-  "generated_at": "2026-08-02T20:10:43.680038",
+  "generated_at": "2026-08-02T20:16:01.806321",
   "stats": {
     "spend": 0.0,
     "impressions": 0,
@@ -25,7 +25,7 @@
     "CTR נמוך — המודעות לא מספיק מושכות"
   ],
   "actions_taken": [],
-  "analysis": "Not logged in · Please run /login",
+  "analysis": "Failed to authenticate: OAuth session expired and could not be refreshed",
   "video_retention": {
     "p0": 0,
     "p25": 0,
