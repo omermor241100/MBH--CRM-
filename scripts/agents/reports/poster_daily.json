@@ -1,9 +1,11 @@
 {
-  "date": "02/08/2026",
+  "date": "03/08/2026",
   "posts_ok": 0,
-  "posts_failed": 0,
+  "posts_failed": 1,
   "max_per_day": 72,
   "groups_ok": [],
-  "groups_failed": [],
-  "last_updated": "2026-08-02T20:48:37.389077"
+  "groups_failed": [
+    "דרושים הנדסה ובניה - מהנדס בנין | הנדסאי בנין | מהנדס אזרחי | מנהל עבודה |"
+  ],
+  "last_updated": "2026-08-03T16:41:35.869128"
 }
