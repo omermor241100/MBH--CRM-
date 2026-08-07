@@ -652,7 +652,15 @@
       "clicks": 0,
       "ctr": 0,
       "leads": 0,
-      "generated_at": "2026-08-06T17:23:59.488128"
+      "generated_at": "2026-08-06T19:49:47.943637"
+    },
+    "2026-08-07": {
+      "spend": 0.0,
+      "impressions": 0,
+      "clicks": 0,
+      "ctr": 0,
+      "leads": 0,
+      "generated_at": "2026-08-07T16:19:14.235544"
     }
   },
   "rules": {
