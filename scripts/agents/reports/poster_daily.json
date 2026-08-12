@@ -1,11 +1,11 @@
 {
-  "date": "11/08/2026",
-  "posts_ok": 1,
-  "posts_failed": 0,
+  "date": "12/08/2026",
+  "posts_ok": 0,
+  "posts_failed": 1,
   "max_per_day": 72,
-  "groups_ok": [
-    "דירות בטבעון, רמת ישי והסביבה"
+  "groups_ok": [],
+  "groups_failed": [
+    "דירות ברמת ישי טבעון והסביבה"
   ],
-  "groups_failed": [],
-  "last_updated": "2026-08-11T21:46:54.080971"
+  "last_updated": "2026-08-12T20:42:20.632161"
 }
