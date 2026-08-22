@@ -1,11 +1,9 @@
 {
-  "date": "21/08/2026",
+  "date": "22/08/2026",
   "posts_ok": 0,
-  "posts_failed": 1,
+  "posts_failed": 0,
   "max_per_day": 72,
   "groups_ok": [],
-  "groups_failed": [
-    "דירות להשכרה בעמק יזרעאל, עפולה והסביבה"
-  ],
-  "last_updated": "2026-08-21T19:42:07.371679"
+  "groups_failed": [],
+  "last_updated": "2026-08-22T10:41:04.309293"
 }
