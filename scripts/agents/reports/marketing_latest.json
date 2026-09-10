@@ -1,6 +1,6 @@
 {
   "date": "10/09/2026",
-  "generated_at": "2026-09-10T17:13:02.815905",
+  "generated_at": "2026-09-10T17:18:20.611396",
   "stats": {
     "spend": 0.0,
     "impressions": 0,
@@ -25,7 +25,7 @@
     "CTR נמוך — המודעות לא מספיק מושכות"
   ],
   "actions_taken": [],
-  "analysis": "Your organization has disabled Claude subscription access for Claude Code · Use an Anthropic API key instead, or ask your admin to enable access",
+  "analysis": "**ניתוח:** בשעה 17:18 עדיין 0₪ הוצאה ו-0 חשיפות — כלומר הקמפיין בפועל לא רץ/לא מספק היום, לא שהוא \"רץ וכושל\". במצב כזה ה-CTR של 0.00% לא אומר כלום (0 חלקי 0) והדגל של \"CTR נמוך\" שגוי בשלב הזה — אין עדיין נתונים שמצדיקים מסקנה על איכות המודעה. עם 50₪ תקציב יומי ושעות נותרות מצומצמות ביום, כל עיכוב בהתחלת ההגעה מקטין את הסיכוי לצבור לידים היום.\n\n**המלצה:** לבדוק מיידית את סטטוס המודעה במנג'ר (Ad Status) — אם היא במצב \"In Review\"/\"Scheduled\"/\"Learning Limited\" או שהתקציב לא אושר לחיוב — ולפתור את החסימה בפועל, לפני כל שינוי בקריאייטיב.",
   "video_retention": {
     "p0": 0,
     "p25": 0,
