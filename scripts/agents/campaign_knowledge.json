@@ -956,7 +956,31 @@
       "clicks": 0,
       "ctr": 0,
       "leads": 0,
-      "generated_at": "2026-09-19T18:30:21.564493"
+      "generated_at": "2026-09-19T20:26:57.953674"
+    },
+    "2026-09-20": {
+      "spend": 0.0,
+      "impressions": 0,
+      "clicks": 0,
+      "ctr": 0,
+      "leads": 0,
+      "generated_at": "2026-09-20T20:32:57.073551"
+    },
+    "2026-09-21": {
+      "spend": 0.0,
+      "impressions": 0,
+      "clicks": 0,
+      "ctr": 0,
+      "leads": 0,
+      "generated_at": "2026-09-21T20:17:25.868593"
+    },
+    "2026-09-22": {
+      "spend": 0.0,
+      "impressions": 0,
+      "clicks": 0,
+      "ctr": 0,
+      "leads": 0,
+      "generated_at": "2026-09-22T09:49:15.794782"
     }
   },
   "rules": {
