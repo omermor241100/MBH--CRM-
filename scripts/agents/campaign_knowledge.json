@@ -1013,6 +1013,14 @@
       "ctr": 0,
       "leads": 0,
       "generated_at": "2026-09-26T20:56:36.268394"
+    },
+    "2026-09-27": {
+      "spend": 0.0,
+      "impressions": 0,
+      "clicks": 0,
+      "ctr": 0,
+      "leads": 0,
+      "generated_at": "2026-09-27T15:18:31.726120"
     }
   },
   "rules": {
