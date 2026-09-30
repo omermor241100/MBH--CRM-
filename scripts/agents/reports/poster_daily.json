@@ -1,9 +1,11 @@
 {
-  "date": "29/09/2026",
+  "date": "30/09/2026",
   "posts_ok": 0,
-  "posts_failed": 0,
+  "posts_failed": 1,
   "max_per_day": 72,
   "groups_ok": [],
-  "groups_failed": [],
-  "last_updated": "2026-09-29T21:07:25.710193"
+  "groups_failed": [
+    "שכונת שריד מגדל העמק"
+  ],
+  "last_updated": "2026-09-30T08:46:41.597801"
 }
