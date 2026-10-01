@@ -1052,7 +1052,15 @@
       "clicks": 0,
       "ctr": 0,
       "leads": 0,
-      "generated_at": "2026-10-01T23:55:47.297218"
+      "generated_at": "2026-10-01T23:59:47.555073"
+    },
+    "2026-10-02": {
+      "spend": 0.0,
+      "impressions": 0,
+      "clicks": 0,
+      "ctr": 0,
+      "leads": 0,
+      "generated_at": "2026-10-02T00:02:08.831673"
     }
   },
   "rules": {
