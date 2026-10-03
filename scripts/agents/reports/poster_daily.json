@@ -1,9 +1,11 @@
 {
   "date": "03/10/2026",
   "posts_ok": 0,
-  "posts_failed": 0,
+  "posts_failed": 1,
   "max_per_day": 72,
   "groups_ok": [],
-  "groups_failed": [],
-  "last_updated": "2026-10-03T16:10:39.869049"
+  "groups_failed": [
+    "עסקים בעמק יזרעאל"
+  ],
+  "last_updated": "2026-10-03T17:50:25.937272"
 }
