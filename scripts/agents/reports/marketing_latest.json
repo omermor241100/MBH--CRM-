@@ -1,6 +1,6 @@
 {
-  "date": "06/10/2026",
-  "generated_at": "2026-10-06T00:23:37.223895",
+  "date": "08/10/2026",
+  "generated_at": "2026-10-08T08:55:09.525170",
   "stats": {
     "spend": 0.0,
     "impressions": 0,
@@ -25,7 +25,7 @@
     "CTR נמוך — המודעות לא מספיק מושכות"
   ],
   "actions_taken": [],
-  "analysis": "API Error: Your computer went to sleep mid-response. The response above may be incomplete.",
+  "analysis": "Failed to authenticate: OAuth session expired and could not be refreshed",
   "video_retention": {
     "p0": 0,
     "p25": 0,

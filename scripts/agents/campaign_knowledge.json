@@ -1092,7 +1092,23 @@
       "clicks": 0,
       "ctr": 0,
       "leads": 0,
-      "generated_at": "2026-10-06T08:55:04.714935"
+      "generated_at": "2026-10-06T19:46:24.747788"
+    },
+    "2026-10-07": {
+      "spend": 0.0,
+      "impressions": 0,
+      "clicks": 0,
+      "ctr": 0,
+      "leads": 0,
+      "generated_at": "2026-10-07T18:46:18.332314"
+    },
+    "2026-10-08": {
+      "spend": 0.0,
+      "impressions": 0,
+      "clicks": 0,
+      "ctr": 0,
+      "leads": 0,
+      "generated_at": "2026-10-08T04:00:04.417466"
     }
   },
   "rules": {
