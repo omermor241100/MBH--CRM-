@@ -1189,6 +1189,30 @@
       "ctr": 0,
       "leads": 0,
       "generated_at": "2026-10-18T08:55:14.396490"
+    },
+    "2026-10-19": {
+      "spend": 0.0,
+      "impressions": 0,
+      "clicks": 0,
+      "ctr": 0,
+      "leads": 0,
+      "generated_at": "2026-10-19T19:22:08.713756"
+    },
+    "2026-10-20": {
+      "spend": 0.0,
+      "impressions": 0,
+      "clicks": 0,
+      "ctr": 0,
+      "leads": 0,
+      "generated_at": "2026-10-20T23:53:19.766248"
+    },
+    "2026-10-21": {
+      "spend": 0.0,
+      "impressions": 0,
+      "clicks": 0,
+      "ctr": 0,
+      "leads": 0,
+      "generated_at": "2026-10-21T03:48:23.509192"
     }
   },
   "rules": {
