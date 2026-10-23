@@ -1229,6 +1229,14 @@
       "ctr": 0,
       "leads": 0,
       "generated_at": "2026-10-23T23:44:37.573211"
+    },
+    "2026-10-24": {
+      "spend": 0.0,
+      "impressions": 0,
+      "clicks": 0,
+      "ctr": 0,
+      "leads": 0,
+      "generated_at": "2026-10-24T02:28:12.152078"
     }
   },
   "rules": {
