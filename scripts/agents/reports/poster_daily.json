@@ -1,11 +1,9 @@
 {
-  "date": "25/10/2026",
+  "date": "27/10/2026",
   "posts_ok": 0,
-  "posts_failed": 1,
+  "posts_failed": 0,
   "max_per_day": 72,
   "groups_ok": [],
-  "groups_failed": [
-    "עמק יזרעאל והסביבה"
-  ],
-  "last_updated": "2026-10-25T21:07:44.231574"
+  "groups_failed": [],
+  "last_updated": "2026-10-27T19:45:25.172395"
 }
