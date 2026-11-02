@@ -1,9 +1,11 @@
 {
   "date": "02/11/2026",
   "posts_ok": 0,
-  "posts_failed": 0,
+  "posts_failed": 1,
   "max_per_day": 72,
   "groups_ok": [],
-  "groups_failed": [],
-  "last_updated": "2026-11-02T18:42:44.900937"
+  "groups_failed": [
+    "רמת ישי עמק יזרעאל והסביבה תושבים עסקים ומה שבניהם"
+  ],
+  "last_updated": "2026-11-02T19:46:23.105762"
 }
