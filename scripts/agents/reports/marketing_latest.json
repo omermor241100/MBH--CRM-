@@ -1,6 +1,6 @@
 {
-  "date": "05/11/2026",
-  "generated_at": "2026-11-05T10:23:04.881891",
+  "date": "06/11/2026",
+  "generated_at": "2026-11-06T09:24:10.313248",
   "stats": {
     "spend": 0.0,
     "impressions": 0,
@@ -25,7 +25,7 @@
     "CTR נמוך — המודעות לא מספיק מושכות"
   ],
   "actions_taken": [],
-  "analysis": "You've hit your weekly limit · resets Nov 7 at 5am (Asia/Jerusalem)",
+  "analysis": "You've hit your weekly limit · resets 5am (Asia/Jerusalem)",
   "video_retention": {
     "p0": 0,
     "p25": 0,
