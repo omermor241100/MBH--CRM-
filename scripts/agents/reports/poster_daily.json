@@ -1,9 +1,11 @@
 {
-  "date": "11/11/2026",
+  "date": "12/11/2026",
   "posts_ok": 0,
-  "posts_failed": 0,
+  "posts_failed": 1,
   "max_per_day": 72,
   "groups_ok": [],
-  "groups_failed": [],
-  "last_updated": "2026-11-11T16:28:55.995484"
+  "groups_failed": [
+    "מגדל העמק"
+  ],
+  "last_updated": "2026-11-12T10:43:42.449596"
 }
