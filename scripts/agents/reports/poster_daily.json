@@ -1,11 +1,12 @@
 {
   "date": "12/11/2026",
   "posts_ok": 0,
-  "posts_failed": 1,
+  "posts_failed": 2,
   "max_per_day": 72,
   "groups_ok": [],
   "groups_failed": [
-    "מגדל העמק"
+    "מגדל העמק",
+    "קרית טבעון והסביבה"
   ],
-  "last_updated": "2026-11-12T10:43:42.449596"
+  "last_updated": "2026-11-12T14:28:37.640007"
 }
