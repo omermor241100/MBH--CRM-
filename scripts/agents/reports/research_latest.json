@@ -1,9 +1,9 @@
 {
-  "date": "12/11/2026",
-  "generated_at": "2026-11-12T19:59:54.144511",
+  "date": "13/11/2026",
+  "generated_at": "2026-11-13T10:01:52.376304",
   "topic": "CTR נמוך — המודעות לא מספיק מושכות",
   "based_on_problems": [
     "CTR נמוך — המודעות לא מספיק מושכות"
   ],
-  "findings": "You've hit your weekly limit · resets Nov 14 at 5am (Asia/Jerusalem)"
+  "findings": "You've hit your weekly limit · resets 5am (Asia/Jerusalem)"
 }
